@@ -4,346 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Saeed Muhammad — Physics</title>
-<meta name="description" content="Saeed: theoretical and computational atomic and nuclear physics. Two-electron atoms, resonances, strong-field ionization and laser-assisted alpha decay.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="description" content="Saeed Muhammad, doctoral student in theoretical and computational atomic and nuclear physics, Morishita group, UEC Tokyo.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Spectral:ital@1&display=swap" rel="stylesheet">
-<style>
-/* VOICE occasion-personal: a confident researcher's home page, precise and luminous
-   IDEA a detector screen: the photoelectron momentum map is the site's emblem, carried into every section as fine rings
-   PICTURE live, slowly drifting momentum map (rings + interference fringes) filling the right of the hero
-   COLOUR deep detector indigo hero, white page, ultramarine lead, cyan glow, magenta for wavefunctions
-   TYPE Space Grotesk for display, Inter for text, Spectral italic for math symbols
-   LAYOUT laptop: hero text left, map bleeding right; sections in full-width bands. phone: map, then text, then cards */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b0d1c);--ink:light-dark(#121426,#e9eaf6);--mut:light-dark(#555a72,#a4a8c2);--acc:light-dark(#2236e8,#8c98ff);--acc2:light-dark(#c2185b,#ff7aa8);--cy:light-dark(#0e8fa8,#3fd6f0);--rule:light-dark(#e1e3ee,#262a44);--tint:light-dark(#f3f5ff,#12152a);--card:light-dark(#ffffff,#141831);--deep:#0a0f33}
-:root[data-theme=light]{color-scheme:light}
-:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;min-width:0}
-html{scroll-padding-top:70px;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
-a{color:var(--acc);text-underline-offset:3px}
-img,svg{max-width:100%}
-.m{font-family:Spectral,Georgia,serif;font-style:italic}
-.band{padding-block:clamp(40px,6vw,88px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
-.wrap{max-width:1240px;margin:0 auto}
-h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;line-height:1.05;margin:0}
-h1{font-size:clamp(52px,8vw,96px);font-weight:700}
-h2{font-size:clamp(32px,4vw,48px);font-weight:600;margin-bottom:14px;text-wrap:balance}
-h3{font-size:21px;font-weight:600;line-height:1.2;margin-bottom:8px}
-.lead{font-size:clamp(17px,1.6vw,19px);color:var(--mut);max-width:62ch;margin:0 0 28px}
-/* nav */
-nav{position:sticky;top:0;z-index:9;background:color-mix(in srgb,var(--deep) 88%,transparent);backdrop-filter:blur(10px);color:#fff}
-nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:4px 24px;padding:12px max(5vw,16px);max-width:none}
-nav .brand{font:700 19px "Space Grotesk",sans-serif;color:#fff;text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px}
-nav a{color:#c9cdf5;text-decoration:none;font-weight:500;font-size:15px;padding:8px 0}
-nav a:hover,nav a:focus-visible{color:#fff}
-/* hero */
-.hero{background:var(--deep);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);min-height:min(88svh,780px)}
-.hero .txt{padding:clamp(40px,6vw,96px) clamp(16px,4vw,56px) clamp(40px,6vw,80px) max(5vw,16px);display:flex;flex-direction:column;justify-content:center}
-.hero .role{font:500 clamp(18px,2vw,22px)/1.35 "Space Grotesk",sans-serif;color:#7fe6f7;margin:18px 0 18px}
-.hero p{color:#cfd3f6;font-size:18px;max-width:46ch;margin:0 0 30px}
-.hero .aff{font-size:15.5px;color:#aab1e6;margin:-6px 0 22px;line-height:1.5}
-.hero .fig{position:relative;min-height:420px}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero .cap{position:absolute;right:16px;bottom:14px;font-size:13px;color:#9aa1d8;background:rgba(10,15,51,.75);padding:4px 10px;border-radius:4px}
-.btns{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:999px;font-weight:600;text-decoration:none;font-size:15px}
-.btn.p{background:#fff;color:var(--deep)}
-.btn.s{border:1px solid #6d76c9;color:#fff}
-.btn:hover{transform:translateY(-1px)}
-/* about */
-.about{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start}
-.about p{margin:0 0 14px;max-width:64ch}
-.facts{margin:0;border-top:2px solid var(--ink)}
-.facts div{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--rule)}
-.facts dt{font-weight:600;font-size:14px}
-.facts dd{margin:0;color:var(--mut);font-size:15px}
-/* research */
-.alt{background:var(--tint)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:18px;margin-top:30px}
-.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:22px 22px 20px;display:flex;flex-direction:column}
-.card svg.ic{width:64px;height:64px;margin-bottom:14px}
-.card p{margin:0 0 14px;color:var(--mut);font-size:15.5px}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
-.tags span{font-size:12.5px;font-weight:500;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--acc) 10%,transparent);color:var(--acc)}
-/* approach */
-.ladder{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
-.ladder::before{content:"";position:absolute;left:10%;right:10%;top:23px;height:3px;background:linear-gradient(90deg,var(--cy),var(--acc))}
-.ladder li{position:relative;text-align:center;padding:0 10px}
-.ladder .dot{width:48px;height:48px;border-radius:50%;margin:0 auto 14px;background:var(--bg);border:3px solid var(--acc);display:grid;place-items:center;font:700 18px "Space Grotesk",sans-serif;color:var(--acc);position:relative}
-.ladder b{display:block;font-size:15.5px;margin-bottom:4px}
-.ladder span{font-size:14px;color:var(--mut)}
-/* interactive */
-.demos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
-.demo{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px;display:flex;flex-direction:column}
-.demo p{margin:0 0 12px;color:var(--mut);font-size:15px}
-.fig{position:relative;min-height:300px}
-.fig>svg{position:absolute;inset:0;width:100%;height:100%}
-.demo .fig{background:var(--tint);border-radius:10px;flex:1}
-svg text{font:13.5px Inter,system-ui,sans-serif;fill:var(--mut);paint-order:stroke;stroke:var(--tint);stroke-width:4px}
-svg .math{font:italic 17px Spectral,Georgia,serif;fill:var(--ink)}
-.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:14px;font-weight:500;font-size:15px}
-button{font:600 15px Inter,system-ui,sans-serif;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--acc);background:transparent;color:var(--acc);cursor:pointer}
-button[aria-pressed=true]{background:var(--acc);color:var(--bg)}
-button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid color-mix(in srgb,var(--acc) 50%,transparent);outline-offset:2px}
-input[type=range]{accent-color:var(--acc);width:min(240px,100%);height:44px}
-/* toolkit */
-.tk{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:26px;margin-top:26px}
-.tk h3{font-size:17px;margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips span{border:1px solid var(--rule);border-radius:8px;padding:6px 12px;font-size:14.5px;background:var(--card)}
-/* pubs */
-.pubs{list-style:none;padding:0;margin:24px 0 0;border-top:2px solid var(--ink)}
-.pubs li{display:grid;grid-template-columns:5em minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--rule)}
-.pubs .y{font:600 16px "Space Grotesk",sans-serif;color:var(--acc)}
-.pubs i{color:var(--mut)}
-.kind{font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:99px;margin-left:6px;white-space:nowrap;background:color-mix(in srgb,var(--mut) 14%,transparent);color:var(--mut);vertical-align:2px}
-.kind.p{background:color-mix(in srgb,var(--acc2) 14%,transparent);color:var(--acc2)}
-.note{font-size:13px;color:var(--mut);margin-top:12px}
-/* beyond + contact */
-.contact{background:var(--deep);color:#fff}
-.contact h2{color:#fff}
-.contact p{color:#cfd3f6;max-width:60ch}
-.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:22px}
-.links a{display:block;border:1px solid #39407e;border-radius:12px;padding:16px 18px;text-decoration:none;color:#fff;font-weight:600}
-.links a span{display:block;font-weight:400;font-size:13.5px;color:#9aa1d8;overflow-wrap:anywhere}
-.links a:hover{background:#151b4d}
-footer{background:var(--deep);color:#8a91c8;font-size:14px;border-top:1px solid #1d2460;padding:22px max(5vw,16px)}
-@media(max-width:900px){.hero{grid-template-columns:minmax(0,1fr);min-height:0}.hero .fig{order:-1;min-height:320px}.about,.demos{grid-template-columns:minmax(0,1fr)}
- .ladder{grid-template-columns:minmax(0,1fr);gap:18px}.ladder::before{left:23px;right:auto;top:10px;bottom:10px;width:3px;height:auto;background:linear-gradient(180deg,var(--cy),var(--acc))}
- .ladder li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;text-align:left;padding:0}.ladder .dot{margin:0}}
-@media(max-width:600px){nav .wrap{gap:0 16px}nav a{font-size:14px}.hero .fig{min-height:270px}.pubs li{grid-template-columns:minmax(0,1fr);gap:2px}.facts div{grid-template-columns:minmax(0,1fr);gap:2px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-<nav aria-label="Main"><div class="wrap">
-  <a class="brand" href="#top"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#7fe6f7" stroke-width="1.4"/><circle cx="11" cy="11" r="5.5" fill="none" stroke="#8c98ff" stroke-width="1.4"/><circle cx="11" cy="11" r="2" fill="#fff"/></svg>Saeed</a>
-  <a href="#about">About</a><a href="#research">Research</a><a href="#approach">Approach</a><a href="#interactive">Interactive</a><a href="#publications">Publications</a><a href="#talks">Talks</a><a href="#contact">Contact</a>
-</div></nav>
-
-<header class="hero" id="top">
+<body data-page="home">
+<nav id="nav" aria-label="Main"></nav>
+<main>
+<header class="hero">
   <div class="txt">
-    <h1>Saeed Muhammad</h1>
-    <div class="role">Theoretical &amp; computational<br>atomic and nuclear physics</div>
-    <p class="aff">Doctoral student (Doctor of Science), Morishita group<br>The University of Electro-Communications, Tokyo</p>
-    <p>I simulate how two-electron atoms and atomic nuclei respond to strong and time-dependent fields: resonances, ionization and quantum tunnelling.</p>
-    <div class="btns"><a class="btn p" href="#research">Explore my research</a><a class="btn s" href="#contact">Get in touch</a></div>
+    <h1>Saeed<br>Muhammad</h1>
+    <div class="role">Theoretical &amp; computational atomic and nuclear physics</div>
+    <p class="aff">Doctoral student (Doctor of Science) · Morishita group<br>The University of Electro-Communications, Tokyo</p>
+    <p class="rot" id="rot">I simulate two-electron atoms and nuclei in strong fields. Current focus: <b>doubly excited helium</b></p>
+    <div class="btns"><a class="btn p" href="research.html">See my research</a><a class="btn s" href="contact.html">Get in touch</a></div>
   </div>
-  <div class="fig"><canvas id="pemd" aria-label="Animated illustration of a photoelectron momentum distribution with rings and interference fringes" role="img"></canvas><span class="cap">Illustrative photoelectron momentum map</span></div>
+  <div class="fig"><canvas class="map" role="img" aria-label="Animated illustration of a photoelectron momentum map"></canvas><span class="cap">Illustrative photoelectron momentum map</span></div>
 </header>
-
-<section class="band" id="about"><div class="wrap about">
-  <div>
-    <h2>About</h2>
-    <p>I am a doctoral student, working toward a Doctor of Science, in Professor Toru Morishita's theoretical atomic physics group at the Institute for Advanced Science, The University of Electro-Communications (UEC), Tokyo, which I joined in 2022. I work at the meeting point of numerical methods, formal quantum mechanics and atomic physics. Most of my work is on two-electron systems such as helium, where electron correlation produces doubly excited and autoionizing states that simple one-electron pictures cannot explain.</p>
-    <p>I develop and validate my own codes, mostly in Fortran with Python for reference calculations and analysis, and I compare full numerical solutions of the time-dependent Schrödinger equation with analytic and semi-classical theories. On the nuclear side, I study α decay as quantum tunnelling and how an intense laser field changes it.</p>
-    <p>I also work with collaborators on physics research and academic writing, and I have a long-standing interest in teacher training for English as a foreign language.</p>
-  </div>
+<section class="band"><div class="wrap tiles">
+  <a class="tile" href="research.html"><span class="big">5</span><h3>Research projects</h3><p>Resonances, strong-field ionization, Fano physics, WFAT and α decay.</p><span class="go">Explore research →</span></a>
+  <a class="tile" href="talks.html"><span class="big" id="nTalks">6</span><h3>Talks and workshops</h3><p id="latest">Posters and workshop participation since 2023.</p><span class="go">View all →</span></a>
+  <a class="tile" href="publications.html"><span class="big m">ψ</span><h3>Publications</h3><p>Papers and preprints, searchable by title and year.</p><span class="go">Browse →</span></a>
+</div></section>
+<section class="band alt"><div class="wrap now">
+  <div><h2>About</h2>
+    <p>I work on few-body quantum systems driven by external fields. Most of my research is on helium, where electron correlation creates doubly excited states that one-electron pictures cannot explain.</p>
+    <p>I write and validate my own codes, mainly in Fortran and Python, and test analytic and semi-classical theories against full numerical solutions of the Schrödinger equation.</p></div>
   <dl class="facts">
-    <div><dt>Group</dt><dd><a href="https://power1.pc.uec.ac.jp/">Morishita group</a>, Institute for Advanced Science, UEC Tokyo</dd></div>
-    <div><dt>Fields</dt><dd>Atomic, molecular and optical physics; nuclear decay theory</dd></div>
-    <div><dt>Systems</dt><dd>Helium and two-electron model atoms; α-emitting nuclei</dd></div>
-    <div><dt>Phenomena</dt><dd>Resonances, doubly excited states, strong-field ionization, tunnelling</dd></div>
+    <div><dt>Group</dt><dd>Prof. Toru Morishita, Institute for Advanced Science, UEC Tokyo</dd></div>
+    <div><dt>Topics</dt><dd>Doubly excited states, resonances, strong-field ionization, tunnelling</dd></div>
     <div><dt>Methods</dt><dd>TDSE, complex scaling, perturbation theory, Fano theory, WFAT, WKB</dd></div>
-    <div><dt>Code</dt><dd>Fortran 90, Python, Mathematica, LaTeX</dd></div>
+    <div><dt>Code</dt><dd>Fortran 90, Python, Mathematica, LAPACK, ARPACK</dd></div>
   </dl>
 </div></section>
-
-<section class="band alt" id="research"><div class="wrap">
-  <h2>Research</h2>
-  <p class="lead">Five connected projects, all asking how few-body quantum systems behave when an external field pushes them out of equilibrium.</p>
-  <div class="cards" id="cards"></div>
-</div></section>
-
-<section class="band" id="approach"><div class="wrap">
-  <h2>How I work</h2>
-  <p class="lead">Every result climbs a validation ladder before I trust it. Independent methods have to agree at each rung, and convergence tests decide whether a number is physics or an artefact of the box.</p>
-  <ol class="ladder">
-    <li><div class="dot">1</div><div><b>Analytic limits</b><span>Exactly solvable cases and known values</span></div></li>
-    <li><div class="dot">2</div><div><b>Independent reference</b><span>NumPy/SciPy and sparse Arnoldi solvers</span></div></li>
-    <li><div class="dot">3</div><div><b>Production code</b><span>Modular Fortran 90 with built-in self-tests</span></div></li>
-    <li><div class="dot">4</div><div><b>Convergence</b><span>Grid, box size and complex-scaling angle scans</span></div></li>
-    <li><div class="dot">5</div><div><b>Interpretation</b><span>Testing models against the numbers to rule mechanisms in or out</span></div></li>
-  </ol>
-</div></section>
-
-<section class="band alt" id="interactive"><div class="wrap">
-  <h2>Interactive physics</h2>
-  <p class="lead">Two ideas from my research that you can play with.</p>
-  <div class="demos">
-    <div class="demo">
-      <h3>Fano resonance</h3>
-      <p>A doubly excited state interferes with the ionization continuum, giving an asymmetric line. Its shape is set by the parameter <span class="m">q</span>.</p>
-      <div class="fig"><svg id="f2" role="img" aria-label="Fano line profile for the chosen q"></svg></div>
-      <div class="ctl"><label for="q"><span class="m">q</span> = <output id="qv">2.0</output></label><input type="range" id="q" min="-5" max="5" step="0.1" value="2"></div>
-      <p style="margin:10px 0 0;font-size:13.5px">σ(ε) ∝ (q + ε)² / (1 + ε²). Zero at ε = −q, peak at ε = 1/q. The dashed line is the Lorentzian limit.</p>
-    </div>
-    <div class="demo">
-      <h3>α decay as tunnelling</h3>
-      <p>An α particle trapped in the nucleus leaks through the Coulomb barrier. A laser field adds a term <span class="m">F r</span> cos Ω<span class="m">t</span> that shakes the barrier.</p>
-      <div class="fig"><svg id="f1" role="img" aria-label="Alpha particle wavefunction tunnelling through the Coulomb barrier"></svg></div>
-      <div class="ctl"><button id="laser" aria-pressed="false">Laser field: off</button></div>
-      <p style="margin:10px 0 0;font-size:13.5px">Schematic, not to scale. <span class="m">R</span>: nuclear radius, <span class="m">r</span><sub>t</sub>: outer turning point, <span class="m">Q</span>: decay energy.</p>
-    </div>
-  </div>
-</div></section>
-
-<section class="band" id="toolkit"><div class="wrap">
-  <h2>Toolkit</h2>
-  <div class="tk">
-    <div><h3>Languages</h3><div class="chips"><span>Fortran 90</span><span>Python</span><span>Mathematica</span><span>Shell scripting</span><span>LaTeX / Beamer</span></div></div>
-    <div><h3>Numerical libraries</h3><div class="chips"><span>LAPACK</span><span>ARPACK</span><span>NumPy</span><span>SciPy</span><span>gnuplot</span></div></div>
-    <div><h3>Methods</h3><div class="chips"><span>Fourier grid Hamiltonian</span><span>Exterior complex scaling</span><span>Shift-invert Arnoldi</span><span>TDSE propagation</span><span>Siegert states</span><span>Trajectory models</span></div></div>
-  </div>
-</div></section>
-
-<section class="band alt" id="publications"><div class="wrap">
-  <h2>Publications</h2>
-  <ul class="pubs" id="pubs"></ul>
-  <p class="note">These entries are placeholders showing the layout. Replace them with your papers in the <code>pubs</code> list near the end of this file.</p>
-</div></section>
-
-<section class="band" id="talks"><div class="wrap">
-  <h2>Talks and workshops</h2>
-  <p class="lead">Presentations and workshop participation, most recent first.</p>
-  <ul class="pubs ev">
-    <li><span class="y">2025</span><div><b>IWTAQD 30</b> <span class="kind">Participant</span><br>International Workshop on Theory for Attosecond Quantum Dynamics, The University of Electro-Communications, Tokyo. 25 October – 11 November 2025. Topic: helium dynamics theory.</div></li>
-    <li><span class="y">2025</span><div><b>“Tunneling ionization of doubly excited states of helium”</b> <span class="kind p">Poster</span><br>IWTAQD 29, University of Toyama. Poster session, 4 February 2025.</div></li>
-    <li><span class="y">2024</span><div><b>Interim poster presentation</b> <span class="kind p">Poster</span><br>Doctoral program interim review, The University of Electro-Communications, Tokyo. 10 September 2024.</div></li>
-    <li><span class="y">2024</span><div><b>IWTAQD 28</b> <span class="kind">Participant</span><br>The University of Electro-Communications, Tokyo. 23–31 January 2024. Topic: many-electron systems.</div></li>
-    <li><span class="y">2023</span><div><b>IWTAQD 27</b> <span class="kind">Participant</span><br>The University of Electro-Communications, Tokyo. 19–20 April 2023. Topic: many-electron systems.</div></li>
-    <li><span class="y">2023</span><div><b>IWTAQD 26</b> <span class="kind">Participant</span><br>The University of Electro-Communications, Tokyo. 28–29 March 2023. Topic: many-electron systems.</div></li>
-    <li><span class="y">2022</span><div><b>Joined the Morishita group</b><br>Institute for Advanced Science, The University of Electro-Communications, Tokyo. October 2022.</div></li>
-  </ul>
-  <p class="note">Source: <a href="https://power1.pc.uec.ac.jp/~toru/iwtaqd/index.html">IWTAQD workshop pages</a> and news pages of the <a href="https://power1.pc.uec.ac.jp/~toru/index.html">Morishita group</a>.</p>
-</div></section>
-
-<section class="band contact" id="contact"><div class="wrap">
-  <h2>Get in touch</h2>
-  <p>I am happy to talk about two-electron dynamics, resonances, strong-field ionization or nuclear decay, and I welcome collaborations.</p>
-  <div class="links">
-    <a href="mailto:saeed@example.edu">Email<span>saeed@example.edu</span></a>
-    <a href="https://orcid.org/">ORCID<span>orcid.org</span></a>
-    <a href="https://scholar.google.com/">Google Scholar<span>scholar.google.com</span></a>
-    <a href="https://arxiv.org/">arXiv<span>arxiv.org</span></a>
-    <a href="https://github.com/">GitHub<span>github.com</span></a>
-  </div>
-  <p class="note" style="color:#9aa1d8">The email address and profile links are placeholders.</p>
-</div></section>
-<footer>© 2026 Saeed Muhammad · Computational atomic and nuclear physics</footer>
-
-<script>
-{
-const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-/* research cards; icons are small inline drawings */
-const ic={
- cs:'<svg class="ic" viewBox="0 0 64 64"><line x1="6" y1="32" x2="58" y2="32" stroke="var(--rule)" stroke-width="2"/><line x1="18" y1="32" x2="56" y2="12" stroke="var(--acc)" stroke-width="2.5"/><path d="M30 32 A12 12 0 0 0 29 26" fill="none" stroke="var(--mut)" stroke-width="1.5"/><circle cx="44" cy="18.5" r="4" fill="var(--acc2)"/><circle cx="18" cy="32" r="3" fill="var(--ink)"/></svg>',
- pe:'<svg class="ic" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--cy)" stroke-width="2"/><circle cx="32" cy="32" r="17" fill="none" stroke="var(--acc)" stroke-width="2.5"/><circle cx="32" cy="32" r="8" fill="none" stroke="var(--acc)" stroke-width="2"/><ellipse cx="32" cy="32" rx="28" ry="5" fill="var(--acc)" opacity=".18"/></svg>',
- fa:'<svg class="ic" viewBox="0 0 64 64"><path d="M4 44 C20 44 24 42 28 50 C31 56 34 8 38 10 C42 12 44 40 60 40" fill="none" stroke="var(--acc)" stroke-width="2.6"/><line x1="4" y1="56" x2="60" y2="56" stroke="var(--rule)" stroke-width="2"/></svg>',
- wf:'<svg class="ic" viewBox="0 0 64 64"><path d="M6 54 C14 54 16 10 24 10 C30 10 32 30 40 40 C46 47 52 50 58 51" fill="none" stroke="var(--acc)" stroke-width="2.6"/><path d="M40 40 q3 -4 6 0 t6 0 t6 0" fill="none" stroke="var(--acc2)" stroke-width="2"/><line x1="6" y1="56" x2="58" y2="56" stroke="var(--rule)" stroke-width="2"/></svg>',
- al:'<svg class="ic" viewBox="0 0 64 64"><path d="M4 50 H18 V10 C30 18 40 30 60 36" fill="none" stroke="var(--ink)" stroke-width="2.4"/><line x1="4" y1="38" x2="60" y2="38" stroke="var(--mut)" stroke-dasharray="3 3"/><circle cx="11" cy="38" r="4" fill="var(--acc2)"/><path d="M46 38 q2.5 -5 5 0 t5 0" fill="none" stroke="var(--acc2)" stroke-width="2"/></svg>'
-};
-const cards=[
- {i:'cs',t:'Resonances of two-electron atoms in static fields',d:'I build and validate a Fourier-grid Hamiltonian code with exterior complex scaling to find resonance energies and widths of a two-electron model atom as a static electric field is switched on.',g:['Complex scaling','FGH','Fortran 90','ARPACK']},
- {i:'pe',t:'Strong-field ionization of doubly excited helium',d:'I model photoelectron momentum distributions when the helium 2s2p ¹Pᵒ state is ionized into He⁺(n = 2) channels, comparing TDSE results with quasi-static tunnelling, Siegert-state and trajectory models.',g:['TDSE','Momentum maps','Channel branching','Siegert states']},
- {i:'fa',t:'Pump–probe ionization and Fano resonances',d:'I study how doubly excited states of helium are excited and probed by pairs of pulses, combining TDSE, time-dependent perturbation theory and Fano theory to extract excitation probabilities and line shapes.',g:['TDPT','Fano profiles','Spectral analysis']},
- {i:'wf',t:'Weak-field asymptotic theory of tunnelling',d:'I compute WFAT ionization integrals for two-electron systems. They depend on the asymptotic tails of Dyson orbitals, so I develop diagnostics that separate the physical tail from numerical contamination.',g:['WFAT','Dyson orbitals','Asymptotics']},
- {i:'al',t:'Laser-assisted α decay',d:'Starting from Gamow’s tunnelling picture and the WKB approximation, I compute the transition probability for α decay in an intense laser field and analyse how it depends on the laser frequency.',g:['Gamow theory','WKB','Nuclear physics','Fortran']}
-];
-document.getElementById('cards').innerHTML=cards.map(c=>`<article class="card">${ic[c.i]}<h3>${esc(c.t)}</h3><p>${esc(c.d)}</p><div class="tags">${c.g.map(x=>`<span>${esc(x)}</span>`).join('')}</div></article>`).join('');
-
-const pubs=[
- {y:'Year',t:'Placeholder title: doubly excited states of helium in pump–probe ionization',a:'Saeed and coauthors',j:'Journal name'},
- {y:'Year',t:'Placeholder title: laser-assisted α decay',a:'Saeed and coauthors',j:'Journal name'}
-];
-document.getElementById('pubs').innerHTML=pubs.map(p=>`<li><span class="y">${esc(p.y)}</span><div><b>${esc(p.t)}</b><br>${esc(p.a)}. <i>${esc(p.j)}</i></div></li>`).join('');
-
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* hero: momentum map on canvas */
-const cv=document.getElementById('pemd'),cx=cv.getContext('2d'),off=document.createElement('canvas'),oc=off.getContext('2d');
-const stops=[[10,15,51],[30,45,170],[39,65,255],[34,211,238],[255,255,255]];
-const cmap=v=>{v=Math.max(0,Math.min(1,v))*(stops.length-1);const i=Math.min(stops.length-2,Math.floor(v)),f=v-i,a=stops[i],b=stops[i+1];return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f]};
-let img=null,ow=0,oh=0;
-const sizeHero=()=>{const W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;cv.width=W;cv.height=H;ow=Math.max(80,Math.round(W/3));oh=Math.max(60,Math.round(H/3));off.width=ow;off.height=oh;img=oc.createImageData(ow,oh)};
-function hero(t){
-  if(!img)return;const d=img.data,W=cv.width,H=cv.height,s=Math.min(ow,oh)*.4,c0=ow/2,c1=oh/2;
-  for(let y=0;y<oh;y++)for(let x=0;x<ow;x++){
-    const kx=(x-c0)/s,ky=(y-c1)/s,k=Math.hypot(kx,ky),cp=k?kx/k:1;
-    let r=0;for(let n=1;n<=5;n++){const kn=.17+.15*n+.006*Math.sin(t*.6+n);r+=Math.exp(-(((k-kn)/.034)**2))*Math.exp(-.35*n)}
-    const ang=.25+.75*cp*cp;
-    const fr=.55+.45*Math.cos(26*k*(1-cp*cp)*3-t*.9);
-    const core=Math.exp(-(kx*kx/.05+ky*ky/.012));
-    let v=(r*ang*fr*1.1+core*.9)*Math.exp(-k*.9);
-    v=Math.pow(v,.7);const [R,G,B]=cmap(v);const i=(y*ow+x)*4;d[i]=R;d[i+1]=G;d[i+2]=B;d[i+3]=255}
-  oc.putImageData(img,0,0);cx.imageSmoothingEnabled=true;cx.drawImage(off,0,0,W,H);
-}
-const roH=new ResizeObserver(()=>{sizeHero();hero(reduce?0:performance.now()/1000)});roH.observe(cv);
-let last=0;
-if(!reduce){const loop=n=>{if(n-last>40){hero(n/1000);last=n}requestAnimationFrame(loop)};requestAnimationFrame(loop)}
-
-/* Fano */
-const f2=document.getElementById('f2'),qi=document.getElementById('q'),qv=document.getElementById('qv');
-function draw2(){
-  const q=+qi.value;qv.textContent=q.toFixed(1);
-  const W=f2.clientWidth,H=f2.clientHeight;if(!W||!H)return;
-  const L=40,Rm=14,T=18,B=40,e0=-10,e1=10,ymax=Math.max(2,1+q*q)*1.1;
-  const X=e=>L+(e-e0)/(e1-e0)*(W-L-Rm),Y=v=>T+(1-v/ymax)*(H-T-B);
-  let p='',lz='';
-  for(let i=0;i<=400;i++){const e=e0+(e1-e0)*i/400,sv=(q+e)**2/(1+e*e),l=(1+q*q)/(1+(e-1/(q||1e-9))**2);
-    p+=(i?'L':'M')+X(e).toFixed(1)+' '+Y(sv).toFixed(1);lz+=(i?'L':'M')+X(e).toFixed(1)+' '+Y(Math.min(l,ymax)).toFixed(1)}
-  const step=ymax>20?10:ymax>8?5:ymax>4?2:1;let tk='';
-  for(let v=0;v<=ymax;v+=step)tk+=`<line x1="${L}" y1="${Y(v)}" x2="${W-Rm}" y2="${Y(v)}" stroke="${css('--rule')}"/><text x="${L-8}" y="${Y(v)+5}" text-anchor="end">${v}</text>`;
-  (W<420?[-10,0,10]:[-10,-5,0,5,10]).forEach(e=>tk+=`<text x="${X(e)}" y="${H-B+22}" text-anchor="middle">${e}</text>`);
-  const zx=-q,mx=q?1/q:null;
-  f2.innerHTML=`${tk}<line x1="${L}" y1="${H-B}" x2="${W-Rm}" y2="${H-B}" stroke="${css('--mut')}"/>
-  ${q?`<path d="${lz}" fill="none" stroke="${css('--mut')}" stroke-dasharray="5 5" stroke-width="1.4"/>`:''}
-  <path d="${p}" fill="none" stroke="${css('--acc')}" stroke-width="2.6"/>
-  ${zx>=e0&&zx<=e1?`<circle cx="${X(zx)}" cy="${Y(0)}" r="4.5" fill="${css('--acc2')}"/>`:''}
-  ${mx!==null&&mx>=e0&&mx<=e1?`<circle cx="${X(mx)}" cy="${Y(1+q*q)}" r="4.5" fill="${css('--acc')}"/>`:''}
-  <text class="math" x="${W-Rm}" y="${H-6}" text-anchor="end">ε</text><text class="math" x="${L+8}" y="${T+16}">σ</text>`;
-}
-qi.addEventListener('input',draw2);
-const ro2=new ResizeObserver(draw2);ro2.observe(f2);
-
-/* alpha tunnelling */
-const f1=document.getElementById('f1'),lb=document.getElementById('laser');
-let laser=false;
-lb.addEventListener('click',()=>{laser=!laser;lb.setAttribute('aria-pressed',laser);lb.textContent='Laser field: '+(laser?'on':'off');if(reduce)draw1(0)});
-const R=.2,C=.75,Q=1,rt=C/Q,V0=-1.3,vmax=3.4,vmin=-1.6;
-function draw1(t){
-  const W=f1.clientWidth,H=f1.clientHeight;if(!W||!H)return;
-  const L=36,Rm=14,T=18,B=36,small=W<440;
-  const X=r=>L+r*(W-L-Rm),Y=v=>T+(vmax-v)/(vmax-vmin)*(H-T-B);
-  const F=laser?.55*Math.cos(t*2.2):0,V=r=>(r<R?V0:C/r)+F*(r-R);
-  let pv='';for(let i=0;i<=400;i++){const r=i/400;pv+=(i?'L':'M')+X(r).toFixed(1)+' '+Y(Math.min(V(r),vmax)).toFixed(1)}
-  const k=Math.PI*2.5/R,ks=Math.sin(k*R),amp=.7,w=t*3;let pw='';
-  for(let i=0;i<=500;i++){const r=i/500;let y;
-    if(r<R)y=amp*Math.sin(k*r)*Math.cos(w);
-    else if(r<rt)y=amp*ks*Math.cos(w)*Math.exp(-9*(r-R));
-    else y=amp*ks*Math.exp(-9*(rt-R))*Math.sin(30*(r-rt)-w)*1.4*(laser?1.6:1);
-    pw+=(i?'L':'M')+X(r).toFixed(1)+' '+Y(Q+y).toFixed(1)}
-  const acc=css('--acc'),ink=css('--ink'),mut=css('--mut'),xt=X(rt),xR=X(R);
-  f1.innerHTML=`<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="${mut}"/><line x1="${L}" y1="${H-B}" x2="${W-Rm}" y2="${H-B}" stroke="${mut}"/>
-  <rect x="${xR}" y="${Y(vmax)}" width="${Math.max(0,xt-xR)}" height="${Y(Q)-Y(vmax)}" fill="${acc}" opacity=".08"/>
-  <line x1="${L}" y1="${Y(Q)}" x2="${W-Rm}" y2="${Y(Q)}" stroke="${mut}" stroke-dasharray="4 5"/>
-  <path d="${pv}" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/>
-  <path d="${pw}" fill="none" stroke="${css('--acc2')}" stroke-width="2.2"/>
-  <text class="math" x="${xR}" y="${H-B+22}" text-anchor="middle">R</text>
-  <text class="math" x="${xt}" y="${H-B+22}" text-anchor="middle">r<tspan dy="4" font-size="12">t</tspan></text>
-  <text class="math" x="${W-Rm-2}" y="${H-B+22}" text-anchor="end">r</text>
-  <text class="math" x="${L-8}" y="${Y(Q)+5}" text-anchor="end">Q</text>
-  ${small?'':`<text x="${(xR+xt)/2}" y="${Y(vmax)+18}" text-anchor="middle">Coulomb barrier</text><text x="${X((rt+1)/2)}" y="${Y(Q)-40}" text-anchor="middle">escaping α</text>`}
-  ${laser?`<text x="${W-Rm-4}" y="${T+14}" text-anchor="end" fill="${acc}">laser on</text>`:''}`;
-}
-const ro1=new ResizeObserver(()=>draw1(reduce?0:performance.now()/1000));ro1.observe(f1);
-if(!reduce){const lp=n=>{draw1(n/1000);requestAnimationFrame(lp)};requestAnimationFrame(lp)}
-
-const mo=new MutationObserver(draw2);mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw2);
-}
-</script>
+</main>
+<footer id="foot"></footer>
+<script src="site.js"></script>
 </body>
 </html>
