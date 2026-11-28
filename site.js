@@ -83,10 +83,21 @@ function render(D){
   if(rb&&!reduce&&f.length>1)setInterval(()=>{rb.style.opacity=0;setTimeout(()=>{i=(i+1)%f.length;rb.textContent=f[i];rb.style.opacity=1},350)},2600);
   if(P.cv)set('cvBtn',`<a class="btn s" href="${esc(P.cv)}">Download CV</a>`);
   if(P.photo){const ph=$('#photo');if(ph){ph.innerHTML=`<img src="${esc(P.photo)}" alt="Portrait of ${esc(P.name)}">`;ph.hidden=false}}
-  const up=T.filter(upcoming).sort((a,b)=>pd(a.date)-pd(b.date))[0];
-  if(up){const days=Math.round((pd(up.date)-today)/864e5);
-   set('next',`<span class="lbl">Next ${esc(up.kind.toLowerCase())}</span><span class="count">${days<=0?'Today':days===1?'Tomorrow':`in ${days} days`}</span><h3>${esc(up.title)}</h3><p>${esc(up.event.split(' — ')[0])} · ${fmt(up.date,up.end)}<br>${esc(up.place)}</p>${up.url?`<a class="go" href="${esc(up.url)}">Workshop page →</a>`:''}`);
-  }else{const l=T.find(t=>t.kind!=='Milestone');if(l)set('next',`<span class="lbl">Latest</span><h3>${esc(l.title)}</h3><p>${esc(l.event.split(' — ')[0])} · ${fmt(l.date,l.end)}</p><a class="go" href="talks.html">All talks →</a>`)}
+  /* Next/latest card: an upcoming talk shows a countdown; once its last day has passed
+     it turns into "Latest talk" automatically. Talks and posters are preferred over
+     workshop attendance. */
+  const PRES=['Talk','Invited talk','Poster'];
+  const rank=t=>PRES.includes(t.kind)?0:t.kind==='Milestone'?2:1;
+  const fut=T.filter(upcoming).sort((a,b)=>rank(a)-rank(b)||pd(a.date)-pd(b.date));
+  const up=fut.find(t=>rank(t)===0)||fut.find(t=>rank(t)===1);
+  const lname=k=>k==='Participant'||k==='Attended'?'workshop':k.toLowerCase();
+  const ago=d=>{const n=Math.round((today-d)/864e5);return n<=0?'Today':n===1?'Yesterday':n<14?`${n} days ago`:n<60?`${Math.round(n/7)} weeks ago`:n<730?`${Math.round(n/30.4)} months ago`:`${Math.round(n/365)} years ago`};
+  const card=(lbl,big,t,link)=>`<span class="lbl">${lbl}</span>${big?`<span class="count">${big}</span>`:''}<h3>${esc(t.title)}</h3><p>${esc(t.event.split(' — ')[0])} · ${fmt(t.date,t.end)}<br>${esc(t.place)}</p>${link}`;
+  if(up){const start=pd(up.date),end=pd(up.end||up.date),days=Math.round((start-today)/864e5);
+   const big=today>=start&&today<=end?(up.end&&up.end!==up.date?'Happening now':'Today'):days===1?'Tomorrow':`in ${days} days`;
+   set('next',card(`Next ${esc(lname(up.kind))}`,big,up,up.url?`<a class="go" href="${esc(up.url)}">Event page →</a>`:`<a class="go" href="talks.html">All talks →</a>`));
+  }else{const past=T.filter(t=>!upcoming(t)&&t.kind!=='Milestone').sort((a,b)=>rank(a)-rank(b)||pd(b.end||b.date)-pd(a.end||a.date));
+   const l=past[0];if(l)set('next',card(`Latest ${esc(lname(l.kind))}`,ago(pd(l.end||l.date)),l,`<a class="go" href="talks.html">All talks →</a>`))}
   set('news',N.slice(0,4).map(n=>`<li><time>${MON[pd(n.date).getMonth()]} ${pd(n.date).getFullYear()}</time><span>${n.link?`<a href="${esc(n.link)}">${esc(n.text)}</a>`:esc(n.text)}</span></li>`).join(''));
   set('nTalks',T.filter(t=>t.kind!=='Milestone').length);
   set('nProj',(D.projects||[]).length);
