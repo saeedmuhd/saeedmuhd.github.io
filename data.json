@@ -80,6 +80,11 @@
       "link": "talks.html"
     },
     {
+      "date": "2026-11-12",
+      "text": "Presented my work on channel-resolved tunneling ionization of doubly excited helium to Dr. Jer-Lai Kuo (Academia Sinica) and our group at the AMO / Attosecond Quantum Dynamics Seminar.",
+      "link": "talks.html"
+    },
+    {
       "date": "2026-11-28",
       "text": "Updated CV now available to download.",
       "link": "cv.html"
@@ -289,6 +294,15 @@
       "event": "Imperial University",
       "place": "Lahore, Pakistan",
       "url": ""
+    },
+    {
+      "date": "2026-11-12",
+      "end": "",
+      "kind": "Talk",
+      "title": "Channel-resolved tunneling ionization of the 2s2p ¹Pᵒ doubly excited state of helium",
+      "event": "Research presentation to Dr. Jer-Lai Kuo (Institute of Atomic and Molecular Sciences, Academia Sinica, Taiwan) and the Morishita group, during the AMO / Attosecond Quantum Dynamics Seminar",
+      "place": "UEC Tokyo, Bldg. E6-803",
+      "url": "https://power1.pc.uec.ac.jp/~toru/amoseminar/2026-1.html"
     }
   ],
   "pubs": [],
