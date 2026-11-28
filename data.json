@@ -156,7 +156,7 @@
     {
       "icon": "al",
       "title": "Laser-assisted capture of proton halo (MPhil)",
-      "text": "Excitation and formation of halo nuclei by an oscillating proton or a hydrogen-like atom in an intense laser field. GC University Lahore, 2017–2019.",
+      "text": "Excitation and formation of halo nuclei by an oscillating proton or a hydrogen-like atom in an intense laser field. Theoretical group of Dr. Atif Shahbaz, GC University Lahore, 2017–2019.",
       "tags": [
         "Nuclear physics",
         "Laser fields"
@@ -307,7 +307,7 @@
       "degree": "MPhil Physics",
       "field": "Intense laser–atom interaction",
       "place": "GC University Lahore, Pakistan",
-      "detail": "Thesis: Laser-assisted capture of proton halo. Supervisor: Prof. Atif Shahbaz."
+      "detail": "Thesis: Laser-assisted capture of proton halo. Theoretical group of Dr. Atif Shahbaz (PhD, Max Planck Institute for Nuclear Physics, Heidelberg)."
     },
     {
       "from": "2015-09",
@@ -352,8 +352,8 @@
       "from": "2017-11",
       "to": "2019-11",
       "role": "MPhil researcher",
-      "org": "Prof. Atif Shahbaz's group, GC University Lahore",
-      "detail": "Excitation and formation of halo nuclei in laser fields."
+      "org": "Theoretical group of Dr. Atif Shahbaz, GC University Lahore",
+      "detail": "Laser-assisted nuclear physics: excitation and formation of halo nuclei in intense laser fields."
     }
   ],
   "honors": [
