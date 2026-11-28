@@ -172,3 +172,33 @@ a.box:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 10px
 .skip{position:absolute;left:-999px;top:8px;background:#fff;color:#0a0f33;padding:8px 14px;border-radius:8px;z-index:20}
 .skip:focus{left:8px}
 .hero .aff a{color:#7fe6f7}
+
+/* CV page */
+.ph #cvHead h1{font-size:clamp(36px,5vw,56px)}
+.cv{max-width:920px}
+.cvs{margin-bottom:34px}
+.cvs h2{font-size:24px;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:4px}
+.cvr{display:grid;grid-template-columns:11em minmax(0,1fr);gap:16px;padding:11px 0;border-bottom:1px solid var(--rule);font-size:15.5px}
+.cvl{color:var(--acc);font-weight:600;font-size:14.5px;white-space:nowrap}
+.cvr p{margin:3px 0 0;color:var(--mut);font-size:14.5px}
+.cvf{color:var(--mut);font-size:14.5px}
+.cvp{margin:10px 0 0}
+@media(max-width:600px){.cvr{grid-template-columns:minmax(0,1fr);gap:2px}}
+@media print{
+ @page{size:A4;margin:16mm 15mm}
+ :root{color-scheme:light}
+ body{background:#fff;color:#111;font-size:10.5pt}
+ nav,footer,.skip,.ph canvas,.btns,.kind{display:none!important}
+ main>*{animation:none!important}
+ .ph{background:#fff;color:#111;padding:0 0 10px}
+ .ph #cvHead h1{font-size:26pt;color:#111}
+ .ph p{color:#333;font-size:10.5pt;margin-top:6px}
+ .band{padding:0}
+ .cvs{margin-bottom:14px;break-inside:auto}
+ .cvs h2{font-size:13pt;border-color:#111;color:#0a0f33;break-after:avoid}
+ .cvs h2+.cvr,.cvs h2+.cvp{break-before:avoid}
+ .cvr{grid-template-columns:9.5em minmax(0,1fr);padding:5px 0;font-size:10pt;break-inside:avoid;border-color:#ddd}
+ .cvl{color:#2236e8;font-size:9.5pt}
+ .cvr p,.cvf{font-size:9.5pt;color:#444}
+ a{color:inherit;text-decoration:none}
+}

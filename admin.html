@@ -128,7 +128,7 @@ $('#guest').addEventListener('click',guest);
 $('#out').addEventListener('click',()=>{try{localStorage.removeItem('gh_tok');sessionStorage.removeItem('gh_tok')}catch(e){}location.reload()});
 
 /* schemas */
-const KINDS=['Talk','Invited talk','Poster','Participant','Milestone'];
+const KINDS=['Talk','Invited talk','Poster','Participant','Attended','Milestone'];
 const S={
  talks:{label:'Talks',title:t=>t.title,blank:()=>({date:new Date().toISOString().slice(0,10),end:'',kind:'Talk',title:'',event:'',place:'',url:''}),
   f:[['date','Date','date'],['end','End date (optional)','date'],['kind','Type','select',KINDS],['title','Title','text','wide'],['event','Event','text','wide'],['place','Place and time','text'],['url','Link (optional)','url']]},
@@ -138,11 +138,17 @@ const S={
   f:[['title','Title','text','wide'],['authors','Authors','text','wide'],['journal','Journal, volume, pages','text'],['year','Year','number'],['doi','DOI (e.g. 10.1103/…)','text'],['url','Link (optional)','url'],['status','Status (optional)','select',['','Published','Accepted','Submitted','Preprint','In preparation']]]},
  projects:{label:'Research',title:t=>t.title,blank:()=>({icon:'at',title:'',text:'',tags:[]}),
   f:[['title','Title','text','wide'],['text','Short description','textarea','wide'],['tags','Tags (comma separated)','list'],['icon','Icon','select',['pe','wf','cs','fa','al','at']]]},
+ education:{label:'Education',title:t=>t.degree,blank:()=>({from:'',to:'',degree:'',field:'',place:'',detail:''}),
+  f:[['degree','Degree','text'],['place','University and country','text'],['from','From (YYYY-MM)','text'],['to','To (YYYY-MM, empty = present)','text'],['field','Field','text','wide'],['detail','Details (thesis, supervisor…)','textarea','wide']]},
+ experience:{label:'Experience',title:t=>t.role,blank:()=>({from:'',to:'',role:'',org:'',detail:''}),
+  f:[['role','Role','text'],['org','Organisation','text'],['from','From (YYYY-MM)','text'],['to','To (YYYY-MM, empty = present)','text'],['detail','Details','textarea','wide']]},
+ honors:{label:'Honors',title:t=>t.text,blank:()=>({year:'',text:''}),f:[['year','Year','text'],['text','Award or honor','text','wide']]},
+ langs:{label:'Languages',title:t=>t.k,blank:()=>({k:'',v:''}),f:[['k','Language','text'],['v','Level','text']]},
  facts:{label:'Facts',title:t=>t.k,blank:()=>({k:'',v:''}),f:[['k','Label','text'],['v','Value','text']]},
  links:{label:'Links',title:t=>t.label,blank:()=>({label:'',url:'',text:''}),f:[['label','Label','text'],['url','URL','url'],['text','Shown text','text']]}
 };
 const PROF=[['name','Name'],['role','Role line'],['position','Position'],['group','Group'],['groupUrl','Group link'],['university','University'],['department','Department (contact page)'],['address','Address'],['email','Email'],['photo','Photo URL (upload in Files)'],['cv','CV URL (upload in Files)'],['intro','Intro sentence']];
-const TABS=[['talks','Talks'],['news','News'],['pubs','Publications'],['projects','Research'],['profile','Profile'],['files','Files'],['raw','Raw JSON']];
+const TABS=[['talks','Talks'],['news','News'],['pubs','Publications'],['projects','Research'],['cv','CV'],['profile','Profile'],['files','Files'],['raw','Raw JSON']];
 
 function drawTabs(){$('#tabs').innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-k="${k}">${l}</button>`).join('')}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.k;drawTabs();draw()});
@@ -186,6 +192,18 @@ function draw(){
    P[k]=k==='about'?el.value.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean):el.dataset.list?el.value.split(',').map(s=>s.trim()).filter(Boolean):el.value;mark()};
   listEditor(P.facts=P.facts||[],'facts','facts',$('#lf'));
   listEditor(P.links=P.links||[],'links','links',$('#ll'));
+ }else if(tab==='cv'){
+  p.innerHTML=`<section class="panel"><h2>CV</h2><p class="h">These sections build the CV page. To refresh the PDF: open <a href="cv.html" target="_blank" rel="noopener">cv.html</a> after saving, press Print → Save as PDF, then upload it in Files and press “Use as CV”.</p>
+   <div class="grid"><div class="wide">${field(['skills','Skills (comma separated)','list','wide'],D.skills||[],'cv-skills')}</div></div></section>
+   <section class="panel"><h2>Education</h2><div id="le1"></div></section>
+   <section class="panel"><h2>Experience</h2><div id="le2"></div></section>
+   <section class="panel"><h2>Honors and awards</h2><div id="le3"></div></section>
+   <section class="panel"><h2>Languages</h2><div id="le4"></div></section>`;
+  $('#cv-skills').oninput=e=>{D.skills=e.target.value.split(',').map(x=>x.trim()).filter(Boolean);mark()};
+  listEditor(D.education=D.education||[],'education','ed',$('#le1'));
+  listEditor(D.experience=D.experience||[],'experience','ex',$('#le2'));
+  listEditor(D.honors=D.honors||[],'honors','ho',$('#le3'));
+  listEditor(D.languages=D.languages||[],'langs','la',$('#le4'));
  }else if(tab==='files'){
   p.innerHTML=`<section class="panel"><h2>Upload a file</h2><p class="h">Upload a photo, your CV or a poster PDF to the <code>assets/</code> folder. You can then use it as your photo or CV, or link to it anywhere.</p>
    ${tok?`<div class="grid"><div><label class="f" for="fi">File</label><input class="in" id="fi" type="file"></div><div><label class="f" for="fn">Save as</label><input class="in" id="fn" placeholder="e.g. cv.pdf"></div></div>

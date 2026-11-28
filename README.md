@@ -10,5 +10,6 @@ GitHub token (Contents: read and write, this repository only), edit, and press S
 - `index.html`, `research.html`, `talks.html`, `publications.html`, `contact.html` — pages
 - `site.js` — loads data.json and draws the pages, animations and demos
 - `style.css` — design
+- `cv.html` — online CV built from data.json; PDF in `assets/Saeed_Muhammad_CV.pdf`
 - `admin.html` — content editor (not indexed by search engines)
 - `assets/` — uploaded photo, CV and other files

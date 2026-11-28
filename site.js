@@ -6,10 +6,11 @@ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const page=document.body.dataset.page;
-const PAGES=[['index.html','Home','home'],['research.html','Research','research'],['talks.html','Talks','talks'],['publications.html','Publications','publications'],['contact.html','Contact','contact']];
+const PAGES=[['index.html','Home','home'],['research.html','Research','research'],['talks.html','Talks','talks'],['publications.html','Publications','publications'],['cv.html','CV','cv'],['contact.html','Contact','contact']];
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const pd=s=>{const [y,m,d]=String(s||'').split('-').map(Number);return new Date(y||1970,(m||1)-1,d||1)};
-const fmt=(s,e)=>{if(!s)return'';const a=pd(s),b=e?pd(e):null;
+const ym=s=>{const [y,m]=String(s||'').split('-');return m?`${MON[+m-1]} ${y}`:(y||'')};
+const fmt=(s,e)=>{if(!s)return'';if(/^\d{4}$/.test(s))return s;if(/^\d{4}-\d{2}$/.test(s))return ym(s)+(e?' – '+ym(e):'');const a=pd(s),b=e?pd(e):null;
   if(!b)return `${a.getDate()} ${MON[a.getMonth()]} ${a.getFullYear()}`;
   if(a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear())return `${a.getDate()}–${b.getDate()} ${MON[a.getMonth()]} ${a.getFullYear()}`;
   return `${a.getDate()} ${MON[a.getMonth()]}${a.getFullYear()!==b.getFullYear()?' '+a.getFullYear():''} – ${b.getDate()} ${MON[b.getMonth()]} ${b.getFullYear()}`};
@@ -42,7 +43,7 @@ const IC={
  al:'<svg class="ic" viewBox="0 0 64 64"><path d="M4 50 H18 V10 C30 18 40 30 60 36" fill="none" stroke="var(--ink)" stroke-width="2.4"/><line x1="4" y1="38" x2="60" y2="38" stroke="var(--mut)" stroke-dasharray="3 3"/><circle cx="11" cy="38" r="4" fill="var(--acc2)"/></svg>',
  at:'<svg class="ic" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="var(--acc)" stroke-width="2"/><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="var(--cy)" stroke-width="2" transform="rotate(60 32 32)"/><circle cx="32" cy="32" r="4" fill="var(--acc2)"/></svg>'
 };
-const kindCls=k=>({Talk:' tk',Poster:' p',Milestone:' ms'}[k]||'');
+const kindCls=k=>({Talk:' tk','Invited talk':' tk',Poster:' p',Milestone:' ms',Attended:' ms'}[k]||'');
 
 function render(D){
  const P=D.profile||{},T=(D.talks||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date)),N=(D.news||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date));
@@ -105,6 +106,26 @@ function render(D){
   set('clinks',`<a href="mailto:${esc(P.email)}">Email<span>${esc(P.email)}</span></a>`+(P.links||[]).filter(l=>l.url).map(l=>`<a href="${esc(l.url)}">${esc(l.label)}<span>${esc(l.text||l.url)}</span></a>`).join(''));
   set('addr',`${esc(P.department)}<br>${esc(P.address)}`);
   const cb=$('#copyEmail');if(cb)cb.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(P.email);cb.textContent='Email copied'}catch(_){cb.textContent=P.email}setTimeout(()=>cb.textContent='Copy email',1800)});
+ }
+
+ /* CV page */
+ if(page==='cv'){
+  const per=(a,b)=>`${ym(a)} – ${b?ym(b):'present'}`;
+  set('cvHead',`<h1>${esc(P.name)}</h1><p>${esc(P.position)}, ${esc(P.group)}<br>${esc(P.department)}<br>${esc(P.email)} · saeedmuhd.github.io</p>`);
+  if(P.cv)set('cvDl',`<a class="btn p" href="${esc(P.cv)}" download>Download PDF</a>`);
+  const sec=(t,h)=>h?`<section class="cvs"><h2>${t}</h2>${h}</section>`:'';
+  const row=(l,b,d)=>`<div class="cvr"><span class="cvl">${l}</span><div>${b}${d?`<p>${d}</p>`:''}</div></div>`;
+  const talks=T.filter(t=>['Talk','Invited talk','Poster'].includes(t.kind)),att=T.filter(t=>t.kind==='Attended'||(t.kind==='Participant'));
+  set('cvBody',
+   sec('Research interests',`<p class="cvp">${esc((P.focus||[]).join(' · '))}</p>`)+
+   sec('Education',(D.education||[]).map(e=>row(per(e.from,e.to),`<b>${esc(e.degree)}</b>, ${esc(e.place)}<br><span class="cvf">${esc(e.field)}</span>`,esc(e.detail))).join(''))+
+   sec('Research and teaching experience',(D.experience||[]).map(e=>row(per(e.from,e.to),`<b>${esc(e.role)}</b>, ${esc(e.org)}`,esc(e.detail))).join(''))+
+   sec('Publications',(D.pubs||[]).map(p=>row(esc(p.year),`<b>${esc(p.title)}</b>`,`${esc(p.authors)}. <i>${esc(p.journal)}</i>${p.status?` (${esc(p.status)})`:''}`)).join(''))+
+   sec('Talks and posters',talks.map(t=>row(fmt(t.date,t.end),`<b>${esc(t.title)}</b> <span class="kind${kindCls(t.kind)}">${esc(t.kind)}</span>`,`${esc(t.event.split(' — ')[0])}, ${esc(t.place.split(' · ')[0])}`)).join(''))+
+   sec('Workshops and conferences attended',att.map(t=>row(fmt(t.date,t.end),esc(t.title),`${esc(t.place.split(' · ')[0])}`)).join(''))+
+   sec('Honors and awards',(D.honors||[]).map(h=>row(esc(h.year),esc(h.text))).join(''))+
+   sec('Skills',`<p class="cvp">${esc((D.skills||[]).join(' · '))}</p>`)+
+   sec('Languages',`<p class="cvp">${(D.languages||[]).map(l=>`${esc(l.k)} (${esc(l.v.toLowerCase())})`).join(' · ')}</p>`));
  }
 }
 

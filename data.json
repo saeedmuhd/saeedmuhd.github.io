@@ -10,50 +10,395 @@
     "address": "1-5-1 Chofugaoka, Chofu, Tokyo 182-8585, Japan",
     "email": "saeed159794@gmail.com",
     "photo": "",
-    "cv": "",
+    "cv": "assets/Saeed_Muhammad_CV.pdf",
     "intro": "I simulate two-electron atoms in strong fields.",
-    "focus": ["doubly excited helium", "tunnelling ionization", "resonances in static fields", "photoelectron momentum maps", "weak-field asymptotic theory"],
+    "focus": [
+      "doubly excited helium",
+      "tunnelling ionization",
+      "resonances in static fields",
+      "photoelectron momentum maps",
+      "weak-field asymptotic theory"
+    ],
     "about": [
       "I work on few-body quantum systems driven by external fields. Most of my research is on helium, where electron correlation creates doubly excited states that one-electron pictures cannot explain.",
-      "I write and validate my own codes, mainly in Fortran and Python, and develop and validate analytic and semi-classical theories against full numerical solutions of the Schrödinger equation."
+      "I write and validate my own codes, mainly in Fortran and Python, and develop and validate analytic and semi-classical theories against full numerical solutions of the Schrödinger equation.",
+      "I came to Japan in 2022 as a MEXT (Japanese Government) Scholarship student. Before that I taught physics for four years in Pakistan and did my MPhil on laser-assisted nuclear processes at GC University Lahore."
     ],
     "facts": [
-      {"k": "Program", "v": "Doctoral course, AiQuSci"},
-      {"k": "Supervisor", "v": "Prof. Toru Morishita, UEC Tokyo"},
-      {"k": "Doctoral project", "v": "Tunneling ionization of many-electron atoms"},
-      {"k": "Topics", "v": "Doubly excited states, resonances, strong-field ionization, tunnelling"},
-      {"k": "Methods", "v": "TDSE, complex scaling, perturbation theory, Fano theory, WFAT"},
-      {"k": "Code", "v": "Fortran 90, Python, Mathematica, LAPACK, ARPACK"}
+      {
+        "k": "Program",
+        "v": "Doctor of Science, doctoral course (AiQuSci), since Oct 2022"
+      },
+      {
+        "k": "Supervisor",
+        "v": "Prof. Toru Morishita, UEC Tokyo"
+      },
+      {
+        "k": "Doctoral project",
+        "v": "Tunneling ionization of many-electron atoms"
+      },
+      {
+        "k": "Scholarship",
+        "v": "MEXT Japanese Government Scholarship"
+      },
+      {
+        "k": "Methods",
+        "v": "TDSE, complex scaling, perturbation theory, Fano theory, WFAT"
+      },
+      {
+        "k": "Code",
+        "v": "Fortran 90, Python, Mathematica, LaTeX"
+      }
     ],
     "links": [
-      {"label": "Research group", "url": "https://power1.pc.uec.ac.jp/", "text": "Morishita group, UEC Tokyo"},
-      {"label": "GitHub", "url": "https://github.com/saeedmuhd", "text": "github.com/saeedmuhd"},
-      {"label": "ORCID", "url": "", "text": ""},
-      {"label": "Google Scholar", "url": "", "text": ""}
+      {
+        "label": "Research group",
+        "url": "https://power1.pc.uec.ac.jp/",
+        "text": "Morishita group, UEC Tokyo"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/saeedmuhd",
+        "text": "github.com/saeedmuhd"
+      },
+      {
+        "label": "ORCID",
+        "url": "",
+        "text": ""
+      },
+      {
+        "label": "Google Scholar",
+        "url": "",
+        "text": ""
+      }
     ]
   },
   "news": [
-    {"date": "2026-12-09", "text": "Talk at IWTAQD 32 on channel-resolved photoelectron momentum distributions of doubly excited helium.", "link": "talks.html"},
-    {"date": "2025-02-04", "text": "Poster at IWTAQD 29, University of Toyama: tunneling ionization of doubly excited states of helium.", "link": "talks.html"},
-    {"date": "2024-09-10", "text": "Doctoral interim poster presentation at UEC.", "link": ""},
-    {"date": "2022-10-01", "text": "Joined the Morishita group at UEC Tokyo.", "link": ""}
+    {
+      "date": "2026-12-09",
+      "text": "Talk at IWTAQD 32 on channel-resolved photoelectron momentum distributions of doubly excited helium.",
+      "link": "talks.html"
+    },
+    {
+      "date": "2026-11-28",
+      "text": "Updated CV now available to download.",
+      "link": "cv.html"
+    },
+    {
+      "date": "2025-02-04",
+      "text": "Poster at IWTAQD 29, University of Toyama: tunneling ionization of doubly excited states of helium.",
+      "link": "talks.html"
+    },
+    {
+      "date": "2024-09-10",
+      "text": "Doctoral interim poster presentation at UEC.",
+      "link": ""
+    },
+    {
+      "date": "2022-10-01",
+      "text": "Joined the Morishita group at UEC Tokyo.",
+      "link": ""
+    },
+    {
+      "date": "2022-12-13",
+      "text": "Attended the 1st UEC–SAARC Symposium on Emerging Technologies at UEC.",
+      "link": ""
+    }
   ],
   "projects": [
-    {"icon": "pe", "title": "Strong-field ionization of doubly excited helium", "text": "Channel-resolved photoelectron momentum maps from He 2s2p ¹Pᵒ into He⁺(n = 2): TDSE versus tunnelling and trajectory models.", "tags": ["TDSE", "Momentum maps", "Siegert states"]},
-    {"icon": "wf", "title": "Tunneling ionization of many-electron atoms", "text": "Weak-field asymptotic theory (WFAT) for two-electron systems, with diagnostics for the asymptotic tails of Dyson orbitals.", "tags": ["WFAT", "Dyson orbitals"]},
-    {"icon": "cs", "title": "Resonances in static fields", "text": "Complex-scaled Fourier-grid code for resonance energies and widths of a two-electron atom in an electric field.", "tags": ["Complex scaling", "Fortran 90", "ARPACK"]},
-    {"icon": "fa", "title": "Pump–probe and Fano resonances", "text": "Exciting and probing doubly excited helium with pulse pairs, using TDSE, perturbation theory and Fano theory.", "tags": ["TDPT", "Fano profiles"]},
-    {"icon": "al", "title": "Laser-assisted α decay", "text": "Gamow tunnelling in an intense laser field: the decay probability and its dependence on laser frequency.", "tags": ["WKB", "Tunnelling"]}
+    {
+      "icon": "pe",
+      "title": "Strong-field ionization of doubly excited helium",
+      "text": "Channel-resolved photoelectron momentum maps from He 2s2p ¹Pᵒ into He⁺(n = 2): TDSE versus tunnelling and trajectory models.",
+      "tags": [
+        "TDSE",
+        "Momentum maps",
+        "Siegert states"
+      ]
+    },
+    {
+      "icon": "wf",
+      "title": "Tunneling ionization of many-electron atoms",
+      "text": "Weak-field asymptotic theory (WFAT) for two-electron systems, with diagnostics for the asymptotic tails of Dyson orbitals.",
+      "tags": [
+        "WFAT",
+        "Dyson orbitals"
+      ]
+    },
+    {
+      "icon": "cs",
+      "title": "Resonances in static fields",
+      "text": "Complex-scaled Fourier-grid code for resonance energies and widths of a two-electron atom in an electric field.",
+      "tags": [
+        "Complex scaling",
+        "Fortran 90",
+        "ARPACK"
+      ]
+    },
+    {
+      "icon": "fa",
+      "title": "Pump–probe and Fano resonances",
+      "text": "Exciting and probing doubly excited helium with pulse pairs, using TDSE, perturbation theory and Fano theory.",
+      "tags": [
+        "TDPT",
+        "Fano profiles"
+      ]
+    },
+    {
+      "icon": "al",
+      "title": "Laser-assisted α decay",
+      "text": "Gamow tunnelling in an intense laser field: the decay probability and its dependence on laser frequency.",
+      "tags": [
+        "WKB",
+        "Tunnelling"
+      ]
+    },
+    {
+      "icon": "al",
+      "title": "Laser-assisted capture of proton halo (MPhil)",
+      "text": "Excitation and formation of halo nuclei by an oscillating proton or a hydrogen-like atom in an intense laser field. GC University Lahore, 2017–2019.",
+      "tags": [
+        "Nuclear physics",
+        "Laser fields"
+      ]
+    }
   ],
   "talks": [
-    {"date": "2026-12-09", "end": "", "kind": "Talk", "title": "Channel-resolved photoelectron momentum distributions of the 2s2p ¹Pᵒ doubly excited state of helium", "event": "IWTAQD 32 — International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo, East-6 Rm 803 · 16:50–17:10", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd32.html"},
-    {"date": "2025-10-25", "end": "2025-11-11", "kind": "Participant", "title": "IWTAQD 30", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo · topic: helium dynamics theory", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd30.html"},
-    {"date": "2025-02-04", "end": "", "kind": "Poster", "title": "Tunneling ionization of doubly excited states of helium", "event": "IWTAQD 29", "place": "University of Toyama", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd29.html"},
-    {"date": "2024-09-10", "end": "", "kind": "Poster", "title": "Doctoral interim presentation", "event": "Interim review", "place": "UEC Tokyo", "url": ""},
-    {"date": "2024-01-23", "end": "2024-01-31", "kind": "Participant", "title": "IWTAQD 28", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo · topic: many-electron systems", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd28.html"},
-    {"date": "2023-04-19", "end": "2023-04-20", "kind": "Participant", "title": "IWTAQD 27", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd27.html"},
-    {"date": "2023-03-28", "end": "2023-03-29", "kind": "Participant", "title": "IWTAQD 26", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd26.html"},
-    {"date": "2022-10-01", "end": "", "kind": "Milestone", "title": "Joined the Morishita group", "event": "Institute for Advanced Science", "place": "UEC Tokyo", "url": ""}
+    {
+      "date": "2026-12-09",
+      "end": "",
+      "kind": "Talk",
+      "title": "Channel-resolved photoelectron momentum distributions of the 2s2p ¹Pᵒ doubly excited state of helium",
+      "event": "IWTAQD 32 — International Workshop on Theory for Attosecond Quantum Dynamics",
+      "place": "UEC Tokyo, East-6 Rm 803 · 16:50–17:10",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd32.html"
+    },
+    {
+      "date": "2025-10-25",
+      "end": "2025-11-11",
+      "kind": "Participant",
+      "title": "IWTAQD 30",
+      "event": "International Workshop on Theory for Attosecond Quantum Dynamics",
+      "place": "UEC Tokyo · topic: helium dynamics theory",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd30.html"
+    },
+    {
+      "date": "2025-02-04",
+      "end": "",
+      "kind": "Poster",
+      "title": "Tunneling ionization of doubly excited states of helium",
+      "event": "IWTAQD 29",
+      "place": "University of Toyama",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd29.html"
+    },
+    {
+      "date": "2024-09-10",
+      "end": "",
+      "kind": "Poster",
+      "title": "Doctoral interim presentation",
+      "event": "Interim review",
+      "place": "UEC Tokyo",
+      "url": ""
+    },
+    {
+      "date": "2024-01-23",
+      "end": "2024-01-31",
+      "kind": "Participant",
+      "title": "IWTAQD 28",
+      "event": "International Workshop on Theory for Attosecond Quantum Dynamics",
+      "place": "UEC Tokyo · topic: many-electron systems",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd28.html"
+    },
+    {
+      "date": "2023-04-19",
+      "end": "2023-04-20",
+      "kind": "Participant",
+      "title": "IWTAQD 27",
+      "event": "International Workshop on Theory for Attosecond Quantum Dynamics",
+      "place": "UEC Tokyo",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd27.html"
+    },
+    {
+      "date": "2023-03-28",
+      "end": "2023-03-29",
+      "kind": "Participant",
+      "title": "IWTAQD 26",
+      "event": "International Workshop on Theory for Attosecond Quantum Dynamics",
+      "place": "UEC Tokyo",
+      "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd26.html"
+    },
+    {
+      "date": "2022-10-01",
+      "end": "",
+      "kind": "Milestone",
+      "title": "Joined the Morishita group",
+      "event": "Started doctoral study as a MEXT scholar",
+      "place": "UEC Tokyo",
+      "url": ""
+    },
+    {
+      "date": "2022-12-13",
+      "end": "2022-12-14",
+      "kind": "Attended",
+      "title": "1st UEC–SAARC Symposium on Emerging Technologies (USSET)",
+      "event": "International symposium",
+      "place": "UEC Tokyo",
+      "url": ""
+    },
+    {
+      "date": "2019-01-29",
+      "end": "2019-01-31",
+      "kind": "Poster",
+      "title": "Excitation of halo nucleus via oscillating proton in laser field; Formation of halo nucleus using hydrogen-like atom in laser field",
+      "event": "16th National Symposium on Frontiers in Physics",
+      "place": "GC University Lahore, Pakistan",
+      "url": ""
+    },
+    {
+      "date": "2018-10-29",
+      "end": "",
+      "kind": "Attended",
+      "title": "International Conference on Recent Advances in Materials Science and Nanotechnology",
+      "event": "Department of Physics, The University of Lahore",
+      "place": "Lahore, Pakistan",
+      "url": ""
+    },
+    {
+      "date": "2017-04-09",
+      "end": "",
+      "kind": "Attended",
+      "title": "International Conference on Computational Physics",
+      "event": "Department of Physics, The University of Lahore",
+      "place": "Lahore, Pakistan",
+      "url": ""
+    },
+    {
+      "date": "2016-09-25",
+      "end": "",
+      "kind": "Attended",
+      "title": "International Conference on Nanotechnology and Materials Science",
+      "event": "Department of Physics, The University of Lahore",
+      "place": "Lahore, Pakistan",
+      "url": ""
+    },
+    {
+      "date": "2015",
+      "end": "",
+      "kind": "Attended",
+      "title": "Conference on the Theory of Relativity (centenary)",
+      "event": "Imperial University",
+      "place": "Lahore, Pakistan",
+      "url": ""
+    }
   ],
-  "pubs": []
+  "pubs": [],
+  "education": [
+    {
+      "from": "2022-10",
+      "to": "",
+      "degree": "Doctor of Science (in progress)",
+      "field": "Physics: atoms and molecules in laser fields",
+      "place": "The University of Electro-Communications, Tokyo, Japan",
+      "detail": "Morishita group. MEXT Japanese Government Scholarship."
+    },
+    {
+      "from": "2017-11",
+      "to": "2019-11",
+      "degree": "MPhil Physics",
+      "field": "Intense laser–atom interaction",
+      "place": "GC University Lahore, Pakistan",
+      "detail": "Thesis: Laser-assisted capture of proton halo. Supervisor: Prof. Atif Shahbaz."
+    },
+    {
+      "from": "2015-09",
+      "to": "2017-06",
+      "degree": "MSc Physics",
+      "field": "Physics",
+      "place": "The University of Lahore, Pakistan",
+      "detail": "Research project: Computational study of ZnCr₂Se₄ within density functional theory (WIEN2k)."
+    },
+    {
+      "from": "2012-09",
+      "to": "2015-08",
+      "degree": "BSc",
+      "field": "Physics and Mathematics",
+      "place": "University of Gujrat, Pakistan",
+      "detail": ""
+    }
+  ],
+  "experience": [
+    {
+      "from": "2022-10",
+      "to": "",
+      "role": "Doctoral researcher",
+      "org": "Morishita group, The University of Electro-Communications, Tokyo",
+      "detail": "Theory and simulation of atoms in intense laser fields."
+    },
+    {
+      "from": "2021-11",
+      "to": "2022-09",
+      "role": "Visiting Lecturer of Physics",
+      "org": "University of Gujrat, Hafiz Hayat Campus, Pakistan",
+      "detail": "Atomic and Molecular Physics, Modern Physics, Mathematical Methods I and II (BS Physics)."
+    },
+    {
+      "from": "2018-09",
+      "to": "2022-07",
+      "role": "Lecturer of Physics",
+      "org": "Punjab Colleges, Jalalpur Jattan, Gujrat, Pakistan",
+      "detail": "Mechanics, waves and oscillations, electricity and magnetism (BS Mathematics); intermediate physics."
+    },
+    {
+      "from": "2017-11",
+      "to": "2019-11",
+      "role": "MPhil researcher",
+      "org": "Prof. Atif Shahbaz's group, GC University Lahore",
+      "detail": "Excitation and formation of halo nuclei in laser fields."
+    }
+  ],
+  "honors": [
+    {
+      "year": "2022",
+      "text": "MEXT (Monbukagakusho) Japanese Government Scholarship for doctoral study at UEC Tokyo"
+    },
+    {
+      "year": "2018",
+      "text": "Merit-based Prime Minister's Laptop Scheme award, MSc Physics"
+    },
+    {
+      "year": "2012–15",
+      "text": "First position, district-level inter-college debate competition"
+    },
+    {
+      "year": "2012–15",
+      "text": "General Secretary, Ghalib Urdu Society; editor of the Urdu section of the college magazine"
+    }
+  ],
+  "languages": [
+    {
+      "k": "Urdu",
+      "v": "Native"
+    },
+    {
+      "k": "Punjabi",
+      "v": "Native"
+    },
+    {
+      "k": "English",
+      "v": "Fluent"
+    },
+    {
+      "k": "Japanese",
+      "v": "Beginner"
+    }
+  ],
+  "skills": [
+    "Fortran 90",
+    "Python (NumPy, SciPy)",
+    "Wolfram Mathematica",
+    "LaTeX / Beamer",
+    "LAPACK, ARPACK",
+    "gnuplot",
+    "WIEN2k (DFT)"
+  ]
 }
