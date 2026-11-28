@@ -23,11 +23,12 @@ const themeIcon=()=>document.documentElement.dataset.theme==='dark'||(!document.
 
 /* menu and footer (drawn before data loads) */
 const nav=$('#nav');
+let NAVL={};
 const drawNav=name=>{if(!nav)return;
  nav.innerHTML=`<div class="in"><a class="brand" href="index.html"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#7fe6f7" stroke-width="1.4"/><circle cx="11" cy="11" r="5.5" fill="none" stroke="#8c98ff" stroke-width="1.4"/><circle cx="11" cy="11" r="2" fill="#fff"/></svg>${esc(name)}</a>
  <button class="tbtn" id="theme" aria-label="Switch light or dark theme" title="Light / dark">${themeIcon()?'☀':'☾'}</button>
  <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
- <div class="links">${PAGES.map(p=>`<a href="${p[0]}"${p[2]===page?' aria-current="page"':''}>${p[1]}</a>`).join('')}</div></div>`;
+ <div class="links">${PAGES.map(p=>`<a href="${p[0]}"${p[2]===page?' aria-current="page"':''}>${esc(NAVL[p[2]]||p[1])}</a>`).join('')}</div></div>`;
  const b=nav.querySelector('.burger');b.addEventListener('click',()=>{const o=nav.classList.toggle('open');b.setAttribute('aria-expanded',o)});
  const t=$('#theme');t.addEventListener('click',()=>{setTheme(themeIcon()?'light':'dark');t.textContent=themeIcon()?'☀':'☾';redraw.forEach(f=>f())});
 };
@@ -45,12 +46,31 @@ const IC={
 };
 const kindCls=k=>({Talk:' tk','Invited talk':' tk',Poster:' p',Milestone:' ms',Attended:' ms'}[k]||'');
 
+function applySite(S){
+ if(!S)return;
+ const C=S.colors||{},r=document.documentElement.style;
+ if(C.accent)r.setProperty('--acc',`light-dark(${C.accent},${C.accentDark||C.accent})`);
+ if(C.highlight)r.setProperty('--acc2',C.highlight);
+ if(C.header)r.setProperty('--deep',C.header);
+ NAVL=S.nav||{};
+ const pg=(S.pages||{})[page];
+ if(pg){const h=$('.ph h1'),p=$('.ph p');if(h&&pg.title&&page!=='cv')h.textContent=pg.title;if(p&&page!=='cv'){if(pg.subtitle)p.textContent=pg.subtitle;else p.remove()}document.title=`${pg.title||document.title.split(' — ')[0]} — ${document.title.split(' — ').pop()}`}
+ const H=S.hero||{},b1=$('.hero .btn.p'),b2=$('.hero .btn.s'),cap=$('.hero .cap');
+ if(b1&&H.button1)b1.textContent=H.button1;if(b2&&H.button2)b2.textContent=H.button2;if(cap&&H.caption!==undefined){cap.textContent=H.caption;cap.hidden=!H.caption}
+ const sh=S.show||{};
+ if(sh.demos===false){const d=$('#demos');if(d)d.remove()}
+ if(sh.news===false){const d=$('#newsBox');if(d)d.remove()}
+ if(sh.countdown===false){const d=$('#next');if(d)d.remove()}
+ if(sh.heroMap===false){const f=$('.hero .fig');if(f)f.remove();const h=$('.hero');if(h)h.style.gridTemplateColumns='minmax(0,1fr)'}
+ if(S.description){const m=document.querySelector('meta[name=description]');if(m&&page==='home')m.content=S.description}
+}
 function render(D){
+ applySite(D.site);
  const P=D.profile||{},T=(D.talks||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date)),N=(D.news||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date));
  drawNav(P.name||'Saeed Muhammad');
  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.innerHTML=v};
  const foot=$('#foot');
- if(foot)foot.innerHTML=`<div class="wrap"><span>© ${new Date().getFullYear()} ${esc(P.name)} · ${esc(P.group)}, UEC Tokyo</span><span><a href="contact.html">Contact</a> · <a href="https://github.com/saeedmuhd/saeedmuhd.github.io">Source</a></span></div>`;
+ if(foot)foot.innerHTML=`<div class="wrap"><span>© ${new Date().getFullYear()} ${esc(P.name)} · ${esc((D.site&&D.site.footer)||P.group)}</span><span><a href="contact.html">Contact</a> · <a href="https://github.com/saeedmuhd/saeedmuhd.github.io">Source</a></span></div>`;
 
  /* home */
  if(page==='home'){

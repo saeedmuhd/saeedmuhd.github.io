@@ -414,5 +414,56 @@
     "LAPACK, ARPACK",
     "gnuplot",
     "WIEN2k (DFT)"
-  ]
+  ],
+  "site": {
+    "description": "Saeed Muhammad, doctoral student in theoretical and computational atomic physics, Morishita group, The University of Electro-Communications, Tokyo.",
+    "colors": {
+      "accent": "#2236e8",
+      "accentDark": "#8c98ff",
+      "highlight": "#c2185b",
+      "header": "#0a0f33"
+    },
+    "nav": {
+      "home": "Home",
+      "research": "Research",
+      "talks": "Talks",
+      "publications": "Publications",
+      "cv": "CV",
+      "contact": "Contact"
+    },
+    "hero": {
+      "button1": "See my research",
+      "button2": "Get in touch",
+      "caption": "Illustrative photoelectron momentum map"
+    },
+    "pages": {
+      "research": {
+        "title": "Research",
+        "subtitle": "How few-body quantum systems respond when strong or time-dependent fields push them out of equilibrium."
+      },
+      "talks": {
+        "title": "Talks and workshops",
+        "subtitle": "Talks, posters, workshops and milestones, most recent first."
+      },
+      "publications": {
+        "title": "Publications",
+        "subtitle": "Papers and preprints."
+      },
+      "cv": {
+        "title": "Curriculum vitae",
+        "subtitle": ""
+      },
+      "contact": {
+        "title": "Contact",
+        "subtitle": "Questions about two-electron dynamics, resonances or strong-field physics, and collaborations, are welcome."
+      }
+    },
+    "show": {
+      "countdown": true,
+      "news": true,
+      "demos": true,
+      "heroMap": true
+    },
+    "footer": "Morishita group, UEC Tokyo"
+  }
 }

@@ -1,3 +1,4 @@
 User-agent: *
 Disallow: /admin.html
+Disallow: /admin-key.json
 Sitemap: https://saeedmuhd.github.io/sitemap.xml

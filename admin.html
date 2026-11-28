@@ -53,22 +53,40 @@ ol.steps li{margin-bottom:4px}
 <div class="wrapA">
 
 <section class="panel" id="login">
-  <h2>Sign in with GitHub</h2>
-  <p class="h">Changes are saved straight to your repository <code>saeedmuhd/saeedmuhd.github.io</code>. The site updates 1–2 minutes after you save. Your token stays in this browser only and is never put on the website.</p>
-  <ol class="steps">
-    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → New fine-grained token</a>.</li>
-    <li>Repository access: <b>Only select repositories</b> → <code>saeedmuhd.github.io</code>.</li>
-    <li>Permissions → Repository → <b>Contents: Read and write</b>. Generate, then paste it below.</li>
-  </ol>
-  <div class="grid">
-    <div class="wide"><label class="f" for="tok">Access token</label><input class="in" id="tok" type="password" autocomplete="off" placeholder="github_pat_…"></div>
-  </div>
+ <div id="lgWait"><p class="h">Loading…</p></div>
+ <div id="lgPass" hidden>
+  <h2>Admin sign in</h2>
+  <p class="h">Enter your admin password to edit the site.</p>
+  <div class="grid"><div class="wide"><label class="f" for="pw">Password</label><input class="in" id="pw" type="password" autocomplete="current-password"></div></div>
   <div class="row" style="margin-top:12px">
-    <label style="display:flex;gap:8px;align-items:center;font-size:15px"><input type="checkbox" id="rem"> Remember on this device</label>
-    <button class="pb" id="signin">Sign in and load</button>
-    <button class="pb o" id="guest">Edit without signing in</button>
+    <label style="display:flex;gap:8px;align-items:center;font-size:15px"><input type="checkbox" id="rem"> Stay signed in on this device</label>
+    <button class="pb" id="signin">Sign in</button>
   </div>
   <p class="msg" id="lmsg"></p>
+  <details style="margin-top:16px"><summary style="cursor:pointer;color:var(--mut);font-size:14.5px">Forgot the password, or the GitHub token expired?</summary>
+   <p class="h" style="margin-top:8px">Set up again with a new GitHub token and a new password. The old login stops working.</p>
+   <button class="pb o" id="toSetup">Set up again</button></details>
+ </div>
+ <div id="lgSetup" hidden>
+  <h2>Set up your admin login</h2>
+  <p class="h">You only do this once. Your GitHub token is locked with your password and stored with the site, so afterwards you sign in with just the password, from any device. Choose a strong password of at least 12 characters, because the locked token is publicly readable.</p>
+  <ol class="steps">
+    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → New fine-grained token</a>. Pick the longest expiration offered.</li>
+    <li>Repository access: <b>Only select repositories</b> → <code>saeedmuhd.github.io</code>.</li>
+    <li>Permissions → Repository → <b>Contents: Read and write</b>. Generate it and paste it below.</li>
+  </ol>
+  <div class="grid">
+    <div class="wide"><label class="f" for="tok">GitHub token</label><input class="in" id="tok" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+    <div><label class="f" for="np1">New admin password</label><input class="in" id="np1" type="password" autocomplete="new-password"></div>
+    <div><label class="f" for="np2">Repeat password</label><input class="in" id="np2" type="password" autocomplete="new-password"></div>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <label style="display:flex;gap:8px;align-items:center;font-size:15px"><input type="checkbox" id="rem2"> Stay signed in on this device</label>
+    <button class="pb" id="setup">Create login</button>
+  </div>
+  <p class="msg" id="smsg2"></p>
+ </div>
+ <p class="h" style="margin:18px 0 0"><a href="#" id="guest">Edit without signing in</a>: make changes, then download the file and upload it to GitHub yourself.</p>
 </section>
 
 <section id="editor" hidden>
@@ -90,42 +108,74 @@ const OWNER='saeedmuhd',REPO='saeedmuhd.github.io',BR='main',FILE='data.json';
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
 const $=s=>document.querySelector(s);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let D=null,sha=null,tok='',dirty=false,tab='talks';
+let D=null,sha=null,tok='',dirty=false,tab='talks',keySha=null;
+const KEYF='admin-key.json';
 
 const st=(t,c)=>{const e=$('#st');e.textContent=t;e.className='st '+(c||'')};
 const mark=()=>{dirty=true;st('Unsaved changes','dirty')};
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
-const store=()=>{try{return $('#rem').checked?localStorage:sessionStorage}catch(e){return null}};
-try{tok=localStorage.getItem('gh_tok')||sessionStorage.getItem('gh_tok')||'';if(localStorage.getItem('gh_tok'))$('#rem').checked=true}catch(e){}
-if(tok)$('#tok').value=tok;
+const show=id=>['lgWait','lgPass','lgSetup'].forEach(x=>$('#'+x).hidden=x!==id);
+const keep=(t,remember)=>{try{localStorage.removeItem('gh_tok');sessionStorage.removeItem('gh_tok');(remember?localStorage:sessionStorage).setItem('gh_tok',t)}catch(e){}};
+const forget=()=>{try{localStorage.removeItem('gh_tok');sessionStorage.removeItem('gh_tok')}catch(e){}};
 
 const b64e=s=>{const b=new TextEncoder().encode(s);let o='';for(let i=0;i<b.length;i+=0x8000)o+=String.fromCharCode(...b.subarray(i,i+0x8000));return btoa(o)};
 const b64d=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
-const gh=async(path,opt={})=>{const r=await fetch(API+path+(opt.method?'':`?ref=${BR}&t=${Date.now()}`),{...opt,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${tok}`,'X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
- if(!r.ok){let m=r.status+'';try{m+=' '+(await r.json()).message}catch(e){}throw new Error(m)}return r.json()};
+const gh=async(path,opt={})=>{const r=await fetch(API+path+(opt.method?'':`?ref=${BR}&t=${Date.now()}`),{...opt,headers:{Accept:'application/vnd.github+json',...(tok?{Authorization:`Bearer ${tok}`}:{}),'X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
+ if(!r.ok){let m=r.status+'';try{m+=' '+(await r.json()).message}catch(e){}const er=new Error(m);er.status=r.status;throw er}return r.json()};
 
-async function signin(){
- tok=$('#tok').value.trim();const m=$('#lmsg');m.className='msg';
- if(!tok){m.textContent='Paste your token first.';m.className='msg err';return}
- m.textContent='Loading…';
- try{const j=await gh(FILE);sha=j.sha;D=JSON.parse(b64d(j.content));
-  const s=store();try{localStorage.removeItem('gh_tok');sessionStorage.removeItem('gh_tok')}catch(e){}if(s)s.setItem('gh_tok',tok);
-  open_(true)}
- catch(e){m.textContent='Could not sign in: '+e.message+'. Check the token and that it has Contents: Read and write on this repository.';m.className='msg err'}
+/* password lock: PBKDF2 (600k) + AES-GCM, WebCrypto */
+const u8=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),s64=u=>btoa(String.fromCharCode(...u));
+const kdf=async(pw,salt,it)=>{const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:it,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])};
+const seal=async(t,pw)=>{const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),it=600000;
+ const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await kdf(pw,salt,it),new TextEncoder().encode(t)));
+ return{v:1,kdf:'PBKDF2-SHA256',iter:it,salt:s64(salt),iv:s64(iv),ct:s64(ct),created:new Date().toISOString().slice(0,10)}};
+const unseal=async(o,pw)=>new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u8(o.iv)},await kdf(pw,u8(o.salt),o.iter||600000),u8(o.ct)));
+const readKey=async()=>{const t0=tok;tok='';try{const j=await gh(KEYF);keySha=j.sha;return JSON.parse(b64d(j.content))}catch(e){if(e.status===404)return null;
+  try{const r=await fetch(KEYF+'?t='+Date.now(),{cache:'no-store'});if(r.ok)return r.json()}catch(_){}return null}finally{tok=t0}};
+const writeKey=async(pw)=>{const o=await seal(tok,pw);let old=null;try{old=(await gh(KEYF)).sha}catch(e){}
+ await gh(KEYF,{method:'PUT',body:JSON.stringify({message:'Update admin login',content:b64e(JSON.stringify(o,null,2)+'\n'),branch:BR,...(old?{sha:old}:{})})})};
+const loadData=async()=>{const j=await gh(FILE);sha=j.sha;D=JSON.parse(b64d(j.content))};
+
+async function boot(){
+ let saved='';try{saved=localStorage.getItem('gh_tok')||sessionStorage.getItem('gh_tok')||''}catch(e){}
+ if(saved){tok=saved;try{await loadData();return open_(true)}catch(e){tok='';forget()}}
+ const k=await readKey();show(k?'lgPass':'lgSetup');(k?$('#pw'):$('#tok')).focus();
 }
-async function guest(){
+async function signin(){
+ const m=$('#lmsg'),pw=$('#pw').value;m.className='msg';if(!pw){m.textContent='Enter your password.';m.className='msg err';return}
+ m.textContent='Signing in…';
+ const k=await readKey();if(!k){show('lgSetup');return}
+ try{tok=await unseal(k,pw)}catch(e){tok='';m.textContent='Wrong password.';m.className='msg err';return}
+ try{await loadData();keep(tok,$('#rem').checked);open_(true)}
+ catch(e){tok='';m.textContent='Password accepted, but GitHub refused the stored token ('+e.message+'). It may have expired: use "Set up again".';m.className='msg err'}
+}
+async function setup(){
+ const m=$('#smsg2'),t=$('#tok').value.trim(),a=$('#np1').value,b=$('#np2').value;m.className='msg';
+ const err=x=>{m.textContent=x;m.className='msg err'};
+ if(!t)return err('Paste your GitHub token.');if(a.length<12)return err('Use a password of at least 12 characters.');if(a!==b)return err('The two passwords do not match.');
+ m.textContent='Checking the token…';tok=t;
+ try{await loadData()}catch(e){tok='';return err('GitHub refused this token ('+e.message+'). Check it has Contents: Read and write on saeedmuhd.github.io.')}
+ m.textContent='Saving your login…';
+ try{await writeKey(a);keep(tok,$('#rem2').checked);open_(true)}catch(e){err('Could not save the login: '+e.message)}
+}
+async function guest(e){e.preventDefault();
  try{const r=await fetch(FILE+'?t='+Date.now());D=await r.json();tok='';open_(false)}
  catch(e){$('#lmsg').textContent='Could not load data.json.';$('#lmsg').className='msg err'}
 }
 function open_(auth){
  $('#login').hidden=true;$('#editor').hidden=false;$('#out').hidden=!auth;$('#saveBtn').hidden=!auth;
- st(auth?'Loaded from GitHub':'Editing offline. Download the file and upload it to GitHub to publish.',auth?'ok':'');
+ st(auth?'Signed in':'Editing offline. Download the file and upload it to GitHub to publish.',auth?'ok':'');
  drawTabs();draw();
 }
 $('#signin').addEventListener('click',signin);
-$('#tok').addEventListener('keydown',e=>{if(e.key==='Enter')signin()});
+$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')signin()});
+$('#setup').addEventListener('click',setup);
+$('#np2').addEventListener('keydown',e=>{if(e.key==='Enter')setup()});
+$('#toSetup').addEventListener('click',()=>{show('lgSetup');$('#tok').focus()});
 $('#guest').addEventListener('click',guest);
-$('#out').addEventListener('click',()=>{try{localStorage.removeItem('gh_tok');sessionStorage.removeItem('gh_tok')}catch(e){}location.reload()});
+$('#out').addEventListener('click',()=>{forget();location.reload()});
+boot();
 
 /* schemas */
 const KINDS=['Talk','Invited talk','Poster','Participant','Attended','Milestone'];
@@ -148,7 +198,7 @@ const S={
  links:{label:'Links',title:t=>t.label,blank:()=>({label:'',url:'',text:''}),f:[['label','Label','text'],['url','URL','url'],['text','Shown text','text']]}
 };
 const PROF=[['name','Name'],['role','Role line'],['position','Position'],['group','Group'],['groupUrl','Group link'],['university','University'],['department','Department (contact page)'],['address','Address'],['email','Email'],['photo','Photo URL (upload in Files)'],['cv','CV URL (upload in Files)'],['intro','Intro sentence']];
-const TABS=[['talks','Talks'],['news','News'],['pubs','Publications'],['projects','Research'],['cv','CV'],['profile','Profile'],['files','Files'],['raw','Raw JSON']];
+const TABS=[['talks','Talks'],['news','News'],['pubs','Publications'],['projects','Research'],['cv','CV'],['profile','Profile'],['site','Site settings'],['files','Files'],['security','Login'],['raw','Raw JSON']];
 
 function drawTabs(){$('#tabs').innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-k="${k}">${l}</button>`).join('')}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.k;drawTabs();draw()});
@@ -204,6 +254,45 @@ function draw(){
   listEditor(D.experience=D.experience||[],'experience','ex',$('#le2'));
   listEditor(D.honors=D.honors||[],'honors','ho',$('#le3'));
   listEditor(D.languages=D.languages||[],'langs','la',$('#le4'));
+ }else if(tab==='site'){
+  const S=D.site=D.site||{};S.colors=S.colors||{};S.nav=S.nav||{};S.hero=S.hero||{};S.pages=S.pages||{};S.show=S.show||{};
+  const g=(path)=>path.split('.').reduce((o,k)=>o==null?o:o[k],D);
+  const t=(path,label,type='text',wide)=>`<div${wide?' class="wide"':''}><label class="f" for="s-${path}">${label}</label>${type==='textarea'?`<textarea class="in" id="s-${path}" data-p="${path}">${esc(g(path))}</textarea>`:`<input class="in" id="s-${path}" type="${type}" data-p="${path}" value="${esc(g(path)??'')}"${type==='color'?' style="height:46px;padding:4px"':''}>`}</div>`;
+  const c=(path,label)=>`<label style="display:flex;gap:8px;align-items:center;font-size:15px;min-height:44px"><input type="checkbox" data-p="${path}" data-b="1"${g(path)!==false?' checked':''}> ${label}</label>`;
+  const PG=[['research','Research'],['talks','Talks'],['publications','Publications'],['cv','CV'],['contact','Contact']];
+  PG.forEach(([k])=>S.pages[k]=S.pages[k]||{title:'',subtitle:''});
+  p.innerHTML=`<div id="sf">
+   <section class="panel"><h2>Colours</h2><p class="h">Main colour for links and buttons (light and dark theme), the highlight colour for posters and curves, and the colour of the menu and page headers.</p>
+    <div class="grid">${t('site.colors.accent','Accent (light theme)','color')}${t('site.colors.accentDark','Accent (dark theme)','color')}${t('site.colors.highlight','Highlight','color')}${t('site.colors.header','Header background','color')}</div>
+    <div class="row" style="margin-top:12px"><button class="pb o" id="resetC" type="button">Reset colours</button></div></section>
+   <section class="panel"><h2>Menu labels</h2><div class="grid">${Object.keys(S.nav).length?'':''}${['home','research','talks','publications','cv','contact'].map(k=>t('site.nav.'+k,k[0].toUpperCase()+k.slice(1))).join('')}</div></section>
+   <section class="panel"><h2>Home page</h2><div class="grid">${t('site.hero.button1','First button')}${t('site.hero.button2','Second button')}${t('site.hero.caption','Picture caption (empty hides it)','text',1)}</div>
+    <div class="row" style="margin-top:10px">${c('site.show.heroMap','Show animated picture')}${c('site.show.countdown','Show next-talk card')}${c('site.show.news','Show news')}</div></section>
+   <section class="panel"><h2>Page headings</h2><p class="h">Title and one-line description at the top of each page.</p>${PG.map(([k,l])=>`<div class="item"><div class="grid">${t(`site.pages.${k}.title`,l+' title')}${t(`site.pages.${k}.subtitle`,l+' description','text',1)}</div></div>`).join('')}</section>
+   <section class="panel"><h2>Other</h2><div class="grid">${c('site.show.demos','Show interactive demos on the Research page')}${t('site.footer','Footer text','text',1)}${t('site.description','Search engine description','textarea',1)}</div></section>
+  </div>`;
+  const setP=(path,v)=>{const ks=path.split('.');let o=D;for(let i=0;i<ks.length-1;i++)o=o[ks[i]]=o[ks[i]]||{};o[ks.at(-1)]=v};
+  $('#sf').oninput=e=>{const el=e.target;if(!el.dataset.p)return;setP(el.dataset.p,el.dataset.b?el.checked:el.value);mark()};
+  $('#sf').onchange=$('#sf').oninput;
+  $('#resetC').onclick=()=>{S.colors={accent:'#2236e8',accentDark:'#8c98ff',highlight:'#c2185b',header:'#0a0f33'};mark();draw()};
+ }else if(tab==='security'){
+  p.innerHTML=`<section class="panel"><h2>Change password</h2><p class="h">Re-locks your GitHub token with a new password. Use it on all your devices from now on.</p>
+   ${tok?`<div class="grid"><div><label class="f" for="cp1">New password</label><input class="in" id="cp1" type="password" autocomplete="new-password"></div><div><label class="f" for="cp2">Repeat</label><input class="in" id="cp2" type="password" autocomplete="new-password"></div></div>
+   <div class="row" style="margin-top:12px"><button class="pb" id="cpw">Change password</button></div><p class="msg" id="cmsgP"></p>`:'<p class="msg err">Sign in first.</p>'}</section>
+   <section class="panel"><h2>Replace GitHub token</h2><p class="h">When your token expires, create a new one (same settings as before) and paste it here with your password.</p>
+   ${tok?`<div class="grid"><div class="wide"><label class="f" for="rt">New GitHub token</label><input class="in" id="rt" type="password" autocomplete="off"></div><div><label class="f" for="rp">Admin password</label><input class="in" id="rp" type="password" autocomplete="new-password"></div></div>
+   <div class="row" style="margin-top:12px"><button class="pb" id="rtb">Replace token</button></div><p class="msg" id="rmsgT"></p>`:''}</section>
+   <section class="panel"><h2>Sign out everywhere on this device</h2><p class="h">Removes the saved sign-in from this browser.</p><button class="pb o" id="out2">Sign out</button></section>`;
+  if(tok){
+   $('#cpw').onclick=async()=>{const m=$('#cmsgP'),a=$('#cp1').value,b=$('#cp2').value;m.className='msg';
+    if(a.length<12){m.textContent='At least 12 characters.';m.className='msg err';return}if(a!==b){m.textContent='Passwords do not match.';m.className='msg err';return}
+    m.textContent='Saving…';try{await writeKey(a);m.textContent='Password changed.';m.className='msg ok';$('#cp1').value=$('#cp2').value=''}catch(e){m.textContent='Failed: '+e.message;m.className='msg err'}};
+   $('#rtb').onclick=async()=>{const m=$('#rmsgT'),nt=$('#rt').value.trim(),pw=$('#rp').value;m.className='msg';
+    if(!nt||pw.length<12){m.textContent='Paste the token and your password (12+ characters).';m.className='msg err';return}
+    const old=tok;tok=nt;m.textContent='Checking…';
+    try{await gh(FILE);await writeKey(pw);keep(tok,!!localStorage.getItem('gh_tok'));m.textContent='Token replaced.';m.className='msg ok'}catch(e){tok=old;m.textContent='Failed: '+e.message;m.className='msg err'}};
+  }
+  $('#out2').onclick=()=>{forget();location.reload()};
  }else if(tab==='files'){
   p.innerHTML=`<section class="panel"><h2>Upload a file</h2><p class="h">Upload a photo, your CV or a poster PDF to the <code>assets/</code> folder. You can then use it as your photo or CV, or link to it anywhere.</p>
    ${tok?`<div class="grid"><div><label class="f" for="fi">File</label><input class="in" id="fi" type="file"></div><div><label class="f" for="fn">Save as</label><input class="in" id="fn" placeholder="e.g. cv.pdf"></div></div>
