@@ -1,0 +1,59 @@
+{
+  "profile": {
+    "name": "Saeed Muhammad",
+    "role": "Theoretical & computational atomic physics",
+    "position": "Doctoral student (Doctor of Science)",
+    "group": "Morishita group",
+    "groupUrl": "https://power1.pc.uec.ac.jp/",
+    "university": "The University of Electro-Communications, Tokyo",
+    "department": "Dept. of Engineering Science, The University of Electro-Communications",
+    "address": "1-5-1 Chofugaoka, Chofu, Tokyo 182-8585, Japan",
+    "email": "saeed159794@gmail.com",
+    "photo": "",
+    "cv": "",
+    "intro": "I simulate two-electron atoms in strong fields.",
+    "focus": ["doubly excited helium", "tunnelling ionization", "resonances in static fields", "photoelectron momentum maps", "weak-field asymptotic theory"],
+    "about": [
+      "I work on few-body quantum systems driven by external fields. Most of my research is on helium, where electron correlation creates doubly excited states that one-electron pictures cannot explain.",
+      "I write and validate my own codes, mainly in Fortran and Python, and develop and validate analytic and semi-classical theories against full numerical solutions of the Schrödinger equation."
+    ],
+    "facts": [
+      {"k": "Program", "v": "Doctoral course, AiQuSci"},
+      {"k": "Supervisor", "v": "Prof. Toru Morishita, UEC Tokyo"},
+      {"k": "Doctoral project", "v": "Tunneling ionization of many-electron atoms"},
+      {"k": "Topics", "v": "Doubly excited states, resonances, strong-field ionization, tunnelling"},
+      {"k": "Methods", "v": "TDSE, complex scaling, perturbation theory, Fano theory, WFAT"},
+      {"k": "Code", "v": "Fortran 90, Python, Mathematica, LAPACK, ARPACK"}
+    ],
+    "links": [
+      {"label": "Research group", "url": "https://power1.pc.uec.ac.jp/", "text": "Morishita group, UEC Tokyo"},
+      {"label": "GitHub", "url": "https://github.com/saeedmuhd", "text": "github.com/saeedmuhd"},
+      {"label": "ORCID", "url": "", "text": ""},
+      {"label": "Google Scholar", "url": "", "text": ""}
+    ]
+  },
+  "news": [
+    {"date": "2026-12-09", "text": "Talk at IWTAQD 32 on channel-resolved photoelectron momentum distributions of doubly excited helium.", "link": "talks.html"},
+    {"date": "2025-02-04", "text": "Poster at IWTAQD 29, University of Toyama: tunneling ionization of doubly excited states of helium.", "link": "talks.html"},
+    {"date": "2024-09-10", "text": "Doctoral interim poster presentation at UEC.", "link": ""},
+    {"date": "2022-10-01", "text": "Joined the Morishita group at UEC Tokyo.", "link": ""}
+  ],
+  "projects": [
+    {"icon": "pe", "title": "Strong-field ionization of doubly excited helium", "text": "Channel-resolved photoelectron momentum maps from He 2s2p ¹Pᵒ into He⁺(n = 2): TDSE versus tunnelling and trajectory models.", "tags": ["TDSE", "Momentum maps", "Siegert states"]},
+    {"icon": "wf", "title": "Tunneling ionization of many-electron atoms", "text": "Weak-field asymptotic theory (WFAT) for two-electron systems, with diagnostics for the asymptotic tails of Dyson orbitals.", "tags": ["WFAT", "Dyson orbitals"]},
+    {"icon": "cs", "title": "Resonances in static fields", "text": "Complex-scaled Fourier-grid code for resonance energies and widths of a two-electron atom in an electric field.", "tags": ["Complex scaling", "Fortran 90", "ARPACK"]},
+    {"icon": "fa", "title": "Pump–probe and Fano resonances", "text": "Exciting and probing doubly excited helium with pulse pairs, using TDSE, perturbation theory and Fano theory.", "tags": ["TDPT", "Fano profiles"]},
+    {"icon": "al", "title": "Laser-assisted α decay", "text": "Gamow tunnelling in an intense laser field: the decay probability and its dependence on laser frequency.", "tags": ["WKB", "Tunnelling"]}
+  ],
+  "talks": [
+    {"date": "2026-12-09", "end": "", "kind": "Talk", "title": "Channel-resolved photoelectron momentum distributions of the 2s2p ¹Pᵒ doubly excited state of helium", "event": "IWTAQD 32 — International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo, East-6 Rm 803 · 16:50–17:10", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd32.html"},
+    {"date": "2025-10-25", "end": "2025-11-11", "kind": "Participant", "title": "IWTAQD 30", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo · topic: helium dynamics theory", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd30.html"},
+    {"date": "2025-02-04", "end": "", "kind": "Poster", "title": "Tunneling ionization of doubly excited states of helium", "event": "IWTAQD 29", "place": "University of Toyama", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd29.html"},
+    {"date": "2024-09-10", "end": "", "kind": "Poster", "title": "Doctoral interim presentation", "event": "Interim review", "place": "UEC Tokyo", "url": ""},
+    {"date": "2024-01-23", "end": "2024-01-31", "kind": "Participant", "title": "IWTAQD 28", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo · topic: many-electron systems", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd28.html"},
+    {"date": "2023-04-19", "end": "2023-04-20", "kind": "Participant", "title": "IWTAQD 27", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd27.html"},
+    {"date": "2023-03-28", "end": "2023-03-29", "kind": "Participant", "title": "IWTAQD 26", "event": "International Workshop on Theory for Attosecond Quantum Dynamics", "place": "UEC Tokyo", "url": "https://power1.pc.uec.ac.jp/~toru/iwtaqd/iwtaqd26.html"},
+    {"date": "2022-10-01", "end": "", "kind": "Milestone", "title": "Joined the Morishita group", "event": "Institute for Advanced Science", "place": "UEC Tokyo", "url": ""}
+  ],
+  "pubs": []
+}

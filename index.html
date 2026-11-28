@@ -3,40 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Saeed Muhammad — Physics</title>
-<meta name="description" content="Saeed Muhammad, doctoral student in theoretical and computational atomic physics, Morishita Laboratory, UEC Tokyo.">
+<title>Saeed Muhammad — Atomic physics</title>
+<meta name="description" content="Saeed Muhammad, doctoral student (doctor of science) in theoretical and computational atomic physics, Morishita group, The University of Electro-Communications, Tokyo.">
+<link rel="canonical" href="https://saeedmuhd.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Saeed Muhammad — Atomic physics">
+<meta property="og:description" content="Saeed Muhammad, doctoral student (doctor of science) in theoretical and computational atomic physics, Morishita group, The University of Electro-Communications, Tokyo.">
+<meta property="og:url" content="https://saeedmuhd.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0f33">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>try{const t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Spectral:ital@1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Saeed Muhammad", "jobTitle": "Doctoral student (Doctor of Science)", "url": "https://saeedmuhd.github.io/", "affiliation": {"@type": "CollegeOrUniversity", "name": "The University of Electro-Communications"}, "knowsAbout": ["Atomic physics", "Strong-field ionization", "Doubly excited states of helium", "Tunneling ionization"], "sameAs": ["https://github.com/saeedmuhd"]}</script>
 </head>
 <body data-page="home">
+<a class="skip" href="#main">Skip to content</a>
 <nav id="nav" aria-label="Main"></nav>
-<main>
+<main id="main">
 <header class="hero">
   <div class="txt">
-    <h1>Saeed<br>Muhammad</h1>
-    <div class="role">Theoretical &amp; computational atomic physics</div>
-    <p class="aff">Doctoral student (Doctor of Science) · Morishita group<br>The University of Electro-Communications, Tokyo</p>
-    <p class="rot" id="rot">I simulate two-electron atoms in strong fields. Current focus: <b>doubly excited helium</b></p>
-    <div class="btns"><a class="btn p" href="research.html">See my research</a><a class="btn s" href="contact.html">Get in touch</a></div>
+    <div class="photo" id="photo" hidden></div>
+    <h1 id="hName">Saeed<br>Muhammad</h1>
+    <div class="role" id="hRole">Theoretical &amp; computational atomic physics</div>
+    <p class="aff" id="hAff">Doctoral student (Doctor of Science) · Morishita group<br>The University of Electro-Communications, Tokyo</p>
+    <p class="rot" id="rot">I simulate two-electron atoms in strong fields.</p>
+    <div class="btns"><a class="btn p" href="research.html">See my research</a><a class="btn s" href="contact.html">Get in touch</a><span id="cvBtn"></span></div>
   </div>
   <div class="fig"><canvas class="map" role="img" aria-label="Animated illustration of a photoelectron momentum map"></canvas><span class="cap">Illustrative photoelectron momentum map</span></div>
 </header>
-<section class="band"><div class="wrap tiles">
-  <a class="tile" href="research.html"><span class="big">5</span><h3>Research projects</h3><p>Resonances, strong-field ionization, Fano physics, WFAT and α decay.</p><span class="go">Explore research →</span></a>
-  <a class="tile" href="talks.html"><span class="big" id="nTalks">6</span><h3>Talks and workshops</h3><p id="latest">Posters and workshop participation since 2023.</p><span class="go">View all →</span></a>
-  <a class="tile" href="publications.html"><span class="big m">ψ</span><h3>Publications</h3><p>Papers and preprints, searchable by title and year.</p><span class="go">Browse →</span></a>
+<section class="band"><div class="wrap bento">
+  <div class="box next" id="next"><span class="lbl">Next talk</span></div>
+  <a class="box" href="research.html"><span class="big" id="nProj">5</span><h3>Research projects</h3><p>Ionization, resonances, tunnelling theory.</p></a>
+  <a class="box" href="talks.html"><span class="big" id="nTalks">7</span><h3>Talks and workshops</h3><p>Talks, posters and IWTAQD workshops.</p></a>
+  <div class="box news"><h3>News</h3><ul id="news"></ul></div>
 </div></section>
 <section class="band alt"><div class="wrap now">
-  <div><h2>About</h2>
-    <p>I work on few-body quantum systems driven by external fields. Most of my research is on helium, where electron correlation creates doubly excited states that one-electron pictures cannot explain.</p>
-    <p>I write and validate my own codes, mainly in Fortran and Python, and develop & validate analytic and semi-classical theories against full numerical solutions of the Schrödinger equation.</p></div>
-  <dl class="facts">
-    <div><dt>Group</dt><dd>Prof. Toru Morishita, Institute for Advanced Science, UEC Tokyo</dd></div>
-    <div><dt>Topics</dt><dd>Doubly excited states, resonances, strong-field ionization, tunnelling</dd></div>
-    <div><dt>Methods</dt><dd>TDSE, complex scaling, perturbation theory, Fano theory, WFAT, WKB</dd></div>
-    <div><dt>Code</dt><dd>Fortran 90, Python, Mathematica, LAPACK, ARPACK</dd></div>
-  </dl>
+  <div><h2>About</h2><div id="about"></div></div>
+  <dl class="facts" id="facts"></dl>
 </div></section>
 </main>
 <footer id="foot"></footer>

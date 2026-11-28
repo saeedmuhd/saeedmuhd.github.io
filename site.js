@@ -1,76 +1,122 @@
-/* Saeed Muhammad — shared script: menu, data, animations, interactive figures.
-   To add a talk or a paper, edit the TALKS or PUBS lists below. */
+/* Saeed Muhammad — site script.
+   All text, talks, news and publications live in data.json. Edit them at /admin.html. */
 {
-const TALKS=[
- {y:2025,k:'Participant',t:'IWTAQD 30',w:'International Workshop on Theory for Attosecond Quantum Dynamics, UEC Tokyo · 25 Oct – 11 Nov 2025'},
- {y:2025,k:'Poster',t:'Tunneling ionization of doubly excited states of helium',w:'IWTAQD 29, University of Toyama · 4 Feb 2025'},
- {y:2024,k:'Poster',t:'Interim poster presentation',w:'Doctoral program interim review, UEC Tokyo · 10 Sep 2024'},
- {y:2024,k:'Participant',t:'IWTAQD 28',w:'UEC Tokyo · 23–31 Jan 2024'},
- {y:2023,k:'Participant',t:'IWTAQD 27',w:'UEC Tokyo · 19–20 Apr 2023'},
- {y:2023,k:'Participant',t:'IWTAQD 26',w:'UEC Tokyo · 28–29 Mar 2023'},
- {y:2022,k:'Milestone',t:'Joined the Morishita group',w:'Institute for Advanced Science, UEC Tokyo · Oct 2022'}
-];
-/* Placeholders: replace with your papers. Fields: y year, t title, a authors, j journal, u link (optional) */
-const PUBS=[
- {y:'Year',t:'Placeholder: doubly excited states of helium in strong fields',a:'S. Muhammad and coauthors',j:'Journal name'},
- {y:'Year',t:'Placeholder: laser-assisted α decay',a:'S. Muhammad and coauthors',j:'Journal name'}
-];
-const PAGES=[['index.html','Home','home'],['research.html','Research','research'],['talks.html','Talks','talks'],['publications.html','Publications','publications'],['contact.html','Contact','contact']];
-
 const $=s=>document.querySelector(s);
-const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const page=document.body.dataset.page;
+const PAGES=[['index.html','Home','home'],['research.html','Research','research'],['talks.html','Talks','talks'],['publications.html','Publications','publications'],['contact.html','Contact','contact']];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const pd=s=>{const [y,m,d]=String(s||'').split('-').map(Number);return new Date(y||1970,(m||1)-1,d||1)};
+const fmt=(s,e)=>{if(!s)return'';const a=pd(s),b=e?pd(e):null;
+  if(!b)return `${a.getDate()} ${MON[a.getMonth()]} ${a.getFullYear()}`;
+  if(a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear())return `${a.getDate()}–${b.getDate()} ${MON[a.getMonth()]} ${a.getFullYear()}`;
+  return `${a.getDate()} ${MON[a.getMonth()]}${a.getFullYear()!==b.getFullYear()?' '+a.getFullYear():''} – ${b.getDate()} ${MON[b.getMonth()]} ${b.getFullYear()}`};
+const today=new Date();today.setHours(0,0,0,0);
+const upcoming=t=>pd(t.end||t.date)>=today;
 
-/* menu and footer */
+/* theme toggle */
+const setTheme=t=>{document.documentElement.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}};
+const themeIcon=()=>document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);
+
+/* menu and footer (drawn before data loads) */
 const nav=$('#nav');
-if(nav){
- nav.innerHTML=`<div class="in"><a class="brand" href="index.html"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#7fe6f7" stroke-width="1.4"/><circle cx="11" cy="11" r="5.5" fill="none" stroke="#8c98ff" stroke-width="1.4"/><circle cx="11" cy="11" r="2" fill="#fff"/></svg>Saeed Muhammad</a>
+const drawNav=name=>{if(!nav)return;
+ nav.innerHTML=`<div class="in"><a class="brand" href="index.html"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#7fe6f7" stroke-width="1.4"/><circle cx="11" cy="11" r="5.5" fill="none" stroke="#8c98ff" stroke-width="1.4"/><circle cx="11" cy="11" r="2" fill="#fff"/></svg>${esc(name)}</a>
+ <button class="tbtn" id="theme" aria-label="Switch light or dark theme" title="Light / dark">${themeIcon()?'☀':'☾'}</button>
  <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
  <div class="links">${PAGES.map(p=>`<a href="${p[0]}"${p[2]===page?' aria-current="page"':''}>${p[1]}</a>`).join('')}</div></div>`;
- const b=nav.querySelector('.burger');
- b.addEventListener('click',()=>{const o=nav.classList.toggle('open');b.setAttribute('aria-expanded',o)});
-}
-const foot=$('#foot');
-if(foot)foot.innerHTML=`<div class="wrap"><span>© ${new Date().getFullYear()} Saeed Muhammad · Morishita group, UEC Tokyo</span><span><a href="contact.html">Contact</a></span></div>`;
+ const b=nav.querySelector('.burger');b.addEventListener('click',()=>{const o=nav.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+ const t=$('#theme');t.addEventListener('click',()=>{setTheme(themeIcon()?'light':'dark');t.textContent=themeIcon()?'☀':'☾';redraw.forEach(f=>f())});
+};
+drawNav('Saeed Muhammad');
+const redraw=[];
 
-/* home: rotating topic and latest items */
-const rot=$('#rot');
-if(rot){
- const topics=['doubly excited helium','resonances in static fields','strong-field ionization','tunnelling theory (WFAT)','laser-assisted α decay'];
- let i=0;const b=rot.querySelector('b');
- if(!reduce)setInterval(()=>{b.style.opacity=0;setTimeout(()=>{i=(i+1)%topics.length;b.textContent=topics[i];b.style.opacity=1},350)},2600);
-}
-const nTalks=$('#nTalks');if(nTalks)nTalks.textContent=TALKS.filter(t=>t.k!=='Milestone').length;
-const latest=$('#latest');if(latest){const t=TALKS.find(t=>t.k==='Poster');latest.textContent=`Latest: “${t.t}”, ${t.w.split(' · ')[0]}`}
+/* icons for research cards */
+const IC={
+ cs:'<svg class="ic" viewBox="0 0 64 64"><line x1="6" y1="32" x2="58" y2="32" stroke="var(--rule)" stroke-width="2"/><line x1="18" y1="32" x2="56" y2="12" stroke="var(--acc)" stroke-width="2.5"/><circle cx="44" cy="18.5" r="4" fill="var(--acc2)"/><circle cx="18" cy="32" r="3" fill="var(--ink)"/></svg>',
+ pe:'<svg class="ic" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--cy)" stroke-width="2"/><circle cx="32" cy="32" r="17" fill="none" stroke="var(--acc)" stroke-width="2.5"/><circle cx="32" cy="32" r="8" fill="none" stroke="var(--acc)" stroke-width="2"/></svg>',
+ fa:'<svg class="ic" viewBox="0 0 64 64"><path d="M4 44 C20 44 24 42 28 50 C31 56 34 8 38 10 C42 12 44 40 60 40" fill="none" stroke="var(--acc)" stroke-width="2.6"/><line x1="4" y1="56" x2="60" y2="56" stroke="var(--rule)" stroke-width="2"/></svg>',
+ wf:'<svg class="ic" viewBox="0 0 64 64"><path d="M6 54 C14 54 16 10 24 10 C30 10 32 30 40 40 C46 47 52 50 58 51" fill="none" stroke="var(--acc)" stroke-width="2.6"/><path d="M40 40 q3 -4 6 0 t6 0 t6 0" fill="none" stroke="var(--acc2)" stroke-width="2"/></svg>',
+ al:'<svg class="ic" viewBox="0 0 64 64"><path d="M4 50 H18 V10 C30 18 40 30 60 36" fill="none" stroke="var(--ink)" stroke-width="2.4"/><line x1="4" y1="38" x2="60" y2="38" stroke="var(--mut)" stroke-dasharray="3 3"/><circle cx="11" cy="38" r="4" fill="var(--acc2)"/></svg>',
+ at:'<svg class="ic" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="var(--acc)" stroke-width="2"/><ellipse cx="32" cy="32" rx="26" ry="10" fill="none" stroke="var(--cy)" stroke-width="2" transform="rotate(60 32 32)"/><circle cx="32" cy="32" r="4" fill="var(--acc2)"/></svg>'
+};
+const kindCls=k=>({Talk:' tk',Poster:' p',Milestone:' ms'}[k]||'');
 
-/* talks page with filters */
-const tl=$('#talks');
-if(tl){
- const kinds=['All','Poster','Participant'];let cur='All';
- const f=$('#filters');
- const render=()=>{const r=TALKS.filter(t=>cur==='All'||t.k===cur);
-  tl.innerHTML=r.map((t,i)=>`<li style="animation-delay:${i*40}ms"><span class="y">${t.y}</span><div><b>${esc(t.t)}</b><span class="kind${t.k==='Poster'?' p':''}">${t.k}</span><p>${esc(t.w)}</p></div></li>`).join('')};
- f.innerHTML=kinds.map(k=>`<button class="chip" aria-pressed="${k===cur}">${k}</button>`).join('');
- f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.textContent;f.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
- render();
+function render(D){
+ const P=D.profile||{},T=(D.talks||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date)),N=(D.news||[]).slice().sort((a,b)=>pd(b.date)-pd(a.date));
+ drawNav(P.name||'Saeed Muhammad');
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.innerHTML=v};
+ const foot=$('#foot');
+ if(foot)foot.innerHTML=`<div class="wrap"><span>© ${new Date().getFullYear()} ${esc(P.name)} · ${esc(P.group)}, UEC Tokyo</span><span><a href="contact.html">Contact</a> · <a href="https://github.com/saeedmuhd/saeedmuhd.github.io">Source</a></span></div>`;
+
+ /* home */
+ if(page==='home'){
+  set('hName',esc(P.name).replace(' ','<br>'));
+  set('hRole',esc(P.role));
+  set('hAff',`${esc(P.position)} · <a href="${esc(P.groupUrl)}">${esc(P.group)}</a><br>${esc(P.university)}`);
+  const f=(P.focus||[]).length?P.focus:['physics'];
+  set('rot',`${esc(P.intro)} Current focus: <b>${esc(f[0])}</b>`);
+  const rb=$('#rot b');let i=0;
+  if(rb&&!reduce&&f.length>1)setInterval(()=>{rb.style.opacity=0;setTimeout(()=>{i=(i+1)%f.length;rb.textContent=f[i];rb.style.opacity=1},350)},2600);
+  if(P.cv)set('cvBtn',`<a class="btn s" href="${esc(P.cv)}">Download CV</a>`);
+  if(P.photo){const ph=$('#photo');if(ph){ph.innerHTML=`<img src="${esc(P.photo)}" alt="Portrait of ${esc(P.name)}">`;ph.hidden=false}}
+  const up=T.filter(upcoming).sort((a,b)=>pd(a.date)-pd(b.date))[0];
+  if(up){const days=Math.round((pd(up.date)-today)/864e5);
+   set('next',`<span class="lbl">Next ${esc(up.kind.toLowerCase())}</span><span class="count">${days<=0?'Today':days===1?'Tomorrow':`in ${days} days`}</span><h3>${esc(up.title)}</h3><p>${esc(up.event.split(' — ')[0])} · ${fmt(up.date,up.end)}<br>${esc(up.place)}</p>${up.url?`<a class="go" href="${esc(up.url)}">Workshop page →</a>`:''}`);
+  }else{const l=T.find(t=>t.kind!=='Milestone');if(l)set('next',`<span class="lbl">Latest</span><h3>${esc(l.title)}</h3><p>${esc(l.event.split(' — ')[0])} · ${fmt(l.date,l.end)}</p><a class="go" href="talks.html">All talks →</a>`)}
+  set('news',N.slice(0,4).map(n=>`<li><time>${MON[pd(n.date).getMonth()]} ${pd(n.date).getFullYear()}</time><span>${n.link?`<a href="${esc(n.link)}">${esc(n.text)}</a>`:esc(n.text)}</span></li>`).join(''));
+  set('nTalks',T.filter(t=>t.kind!=='Milestone').length);
+  set('nProj',(D.projects||[]).length);
+  set('nPubs',(D.pubs||[]).length);
+  set('about',(P.about||[]).map(p=>`<p>${esc(p)}</p>`).join(''));
+  set('facts',(P.facts||[]).map(x=>`<div><dt>${esc(x.k)}</dt><dd>${esc(x.v)}</dd></div>`).join(''));
+ }
+
+ /* research */
+ if(page==='research')set('cards',(D.projects||[]).map(c=>`<article class="card">${IC[c.icon]||IC.at}<h3>${esc(c.title)}</h3><p>${esc(c.text)}</p><div class="tags">${(c.tags||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div></article>`).join(''));
+
+ /* talks */
+ if(page==='talks'){
+  const kinds=['All',...new Set(T.map(t=>t.kind))];let cur='All';const fl=$('#filters');
+  const draw=()=>{const r=T.filter(t=>cur==='All'||t.kind===cur);let lastY=null;
+   set('talks',r.length?r.map((t,i)=>{const y=pd(t.date).getFullYear(),head=y!==lastY;lastY=y;
+    return `<li style="animation-delay:${i*35}ms"><span class="y">${head?y:''}</span><div><b>${t.url?`<a href="${esc(t.url)}">${esc(t.title)}</a>`:esc(t.title)}</b><span class="kind${kindCls(t.kind)}">${esc(t.kind)}</span>${upcoming(t)?'<span class="kind up">Upcoming</span>':''}<p>${esc(t.event)}<br>${esc(t.place)} · ${fmt(t.date,t.end)}</p></div></li>`}).join(''):'<li class="empty">Nothing here yet.</li>')};
+  fl.innerHTML=kinds.map(k=>`<button class="chip" aria-pressed="${k===cur}">${esc(k)}</button>`).join('');
+  fl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.textContent;fl.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw()});
+  draw();
+ }
+
+ /* publications */
+ if(page==='publications'){
+  const pubs=(D.pubs||[]).slice().sort((a,b)=>(b.year||0)-(a.year||0)),s=$('#q');
+  const bib=p=>`@article{${(p.authors||'author').split(/[ ,]/).filter(Boolean).pop()}${p.year||''},\n  title={${p.title}},\n  author={${p.authors}},\n  journal={${p.journal}},\n  year={${p.year}}${p.doi?`,\n  doi={${p.doi}}`:''}\n}`;
+  const draw=()=>{const k=(s.value||'').toLowerCase();const r=pubs.filter(p=>!k||Object.values(p).join(' ').toLowerCase().includes(k));
+   set('pubs',r.length?r.map((p,i)=>`<li><span class="y">${esc(p.year)}</span><div><b>${p.url||p.doi?`<a href="${esc(p.url||'https://doi.org/'+p.doi)}">${esc(p.title)}</a>`:esc(p.title)}</b>${p.status?`<span class="kind">${esc(p.status)}</span>`:''}<p>${esc(p.authors)}. <i>${esc(p.journal)}</i></p><button class="mini" data-i="${pubs.indexOf(p)}">Copy BibTeX</button></div></li>`).join(''):`<li class="empty">${pubs.length?'No matching entries.':'Publications will appear here as they are published.'}</li>`)};
+  s.addEventListener('input',draw);draw();
+  $('#pubs').addEventListener('click',async e=>{const b=e.target.closest('.mini');if(!b)return;try{await navigator.clipboard.writeText(bib(pubs[+b.dataset.i]));b.textContent='Copied'}catch(_){b.textContent='Copy failed'}setTimeout(()=>b.textContent='Copy BibTeX',1600)});
+  const prof=(P.links||[]).filter(l=>l.url&&/orcid|scholar|arxiv/i.test(l.url));
+  if(prof.length)set('profiles','Also on '+prof.map(l=>`<a href="${esc(l.url)}">${esc(l.label)}</a>`).join(' · '));
+ }
+
+ /* contact */
+ if(page==='contact'){
+  set('clinks',`<a href="mailto:${esc(P.email)}">Email<span>${esc(P.email)}</span></a>`+(P.links||[]).filter(l=>l.url).map(l=>`<a href="${esc(l.url)}">${esc(l.label)}<span>${esc(l.text||l.url)}</span></a>`).join(''));
+  set('addr',`${esc(P.department)}<br>${esc(P.address)}`);
+  const cb=$('#copyEmail');if(cb)cb.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(P.email);cb.textContent='Email copied'}catch(_){cb.textContent=P.email}setTimeout(()=>cb.textContent='Copy email',1800)});
+ }
 }
 
-/* publications page with search */
-const pl=$('#pubs');
-if(pl){
- const s=$('#q');
- const render=()=>{const k=(s.value||'').toLowerCase();const r=PUBS.filter(p=>!k||Object.values(p).join(' ').toLowerCase().includes(k));
-  pl.innerHTML=r.length?r.map(p=>`<li><span class="y">${esc(p.y)}</span><div><b>${p.u?`<a href="${esc(p.u)}">${esc(p.t)}</a>`:esc(p.t)}</b><p>${esc(p.a)}. <i>${esc(p.j)}</i></p></div></li>`).join(''):'<li class="empty">No matching entries.</li>'};
- s.addEventListener('input',render);render();
-}
+fetch('data.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(render).catch(()=>{
+ const m=$('main');if(m)m.insertAdjacentHTML('afterbegin','<div class="band"><div class="wrap note">Content could not be loaded. If you opened this file directly from your computer, use VS Code Live Server or view the site online.</div></div>');
+});
 
-/* momentum-map animation, used on the home hero and page headers */
+/* momentum-map animation (home hero and page headers) */
 const stops=[[10,15,51],[30,45,170],[39,65,255],[34,211,238],[255,255,255]];
 const cmap=v=>{v=Math.max(0,Math.min(1,v))*(stops.length-1);const i=Math.min(stops.length-2,Math.floor(v)),f=v-i,a=stops[i],b=stops[i+1];return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f]};
 document.querySelectorAll('canvas.map').forEach(cv=>{
- const cx=cv.getContext('2d'),off=document.createElement('canvas'),oc=off.getContext('2d');let img=null,ow=0,oh=0;
+ const cx=cv.getContext('2d'),off=document.createElement('canvas'),oc=off.getContext('2d');let img=null,ow=0,oh=0,vis=true;
  const size=()=>{const W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;cv.width=W;cv.height=H;ow=Math.max(80,Math.round(W/3));oh=Math.max(50,Math.round(H/3));off.width=ow;off.height=oh;img=oc.createImageData(ow,oh)};
  const draw=t=>{if(!img)return;const d=img.data,s=Math.min(ow,oh)*.4,c0=ow/2,c1=oh/2;
   for(let y=0;y<oh;y++)for(let x=0;x<ow;x++){const kx=(x-c0)/s,ky=(y-c1)/s,k=Math.hypot(kx,ky),cp=k?kx/k:1;
@@ -79,7 +125,8 @@ document.querySelectorAll('canvas.map').forEach(cv=>{
    const v=Math.pow((r*(.25+.75*cp*cp)*fr*1.1+core*.9)*Math.exp(-k*.9),.7),c=cmap(v),i=(y*ow+x)*4;d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=255}
   oc.putImageData(img,0,0);cx.drawImage(off,0,0,cv.width,cv.height)};
  const ro=new ResizeObserver(()=>{size();draw(performance.now()/1000)});ro.observe(cv);
- if(!reduce){let last=0;const loop=n=>{if(n-last>45){draw(n/1000);last=n}requestAnimationFrame(loop)};requestAnimationFrame(loop)}
+ const io=new IntersectionObserver(e=>{vis=e[0].isIntersecting});io.observe(cv);
+ if(!reduce){let last=0;const loop=n=>{if(vis&&!document.hidden&&n-last>45){draw(n/1000);last=n}requestAnimationFrame(loop)};requestAnimationFrame(loop)}
 });
 
 /* Fano profile demo */
@@ -95,8 +142,7 @@ if(f2){
   (W<420?[-10,0,10]:[-10,-5,0,5,10]).forEach(e=>tk+=`<text x="${X(e)}" y="${H-B+22}" text-anchor="middle">${e}</text>`);
   const mx=q?1/q:null;
   f2.innerHTML=`${tk}<line x1="${L}" y1="${H-B}" x2="${W-Rm}" y2="${H-B}" stroke="${css('--mut')}"/>${q?`<path d="${lz}" fill="none" stroke="${css('--mut')}" stroke-dasharray="5 5" stroke-width="1.4"/>`:''}<path d="${p}" fill="none" stroke="${css('--acc')}" stroke-width="2.6"/>${-q>=e0&&-q<=e1?`<circle cx="${X(-q)}" cy="${Y(0)}" r="4.5" fill="${css('--acc2')}"/>`:''}${mx!==null&&mx>=e0&&mx<=e1?`<circle cx="${X(mx)}" cy="${Y(1+q*q)}" r="4.5" fill="${css('--acc')}"/>`:''}<text class="math" x="${W-Rm}" y="${H-6}" text-anchor="end">ε</text><text class="math" x="${L+8}" y="${T+16}">σ</text>`};
- qi.addEventListener('input',draw2);const ro2=new ResizeObserver(draw2);ro2.observe(f2);
- const mo=new MutationObserver(draw2);mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+ qi.addEventListener('input',draw2);const ro2=new ResizeObserver(draw2);ro2.observe(f2);redraw.push(draw2);
 }
 
 /* alpha-decay tunnelling demo */
@@ -112,7 +158,7 @@ if(f1){
   const acc=css('--acc'),mut=css('--mut'),xt=X(rt),xR=X(R);
   f1.innerHTML=`<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="${mut}"/><line x1="${L}" y1="${H-B}" x2="${W-Rm}" y2="${H-B}" stroke="${mut}"/><rect x="${xR}" y="${Y(vmax)}" width="${Math.max(0,xt-xR)}" height="${Y(Q)-Y(vmax)}" fill="${acc}" opacity=".08"/><line x1="${L}" y1="${Y(Q)}" x2="${W-Rm}" y2="${Y(Q)}" stroke="${mut}" stroke-dasharray="4 5"/><path d="${pv}" fill="none" stroke="${css('--ink')}" stroke-width="2.4" stroke-linejoin="round"/><path d="${pw}" fill="none" stroke="${css('--acc2')}" stroke-width="2.2"/><text class="math" x="${xR}" y="${H-B+22}" text-anchor="middle">R</text><text class="math" x="${xt}" y="${H-B+22}" text-anchor="middle">r<tspan dy="4" font-size="12">t</tspan></text><text class="math" x="${W-Rm-2}" y="${H-B+22}" text-anchor="end">r</text><text class="math" x="${L-8}" y="${Y(Q)+5}" text-anchor="end">Q</text>${small?'':`<text x="${(xR+xt)/2}" y="${Y(vmax)+18}" text-anchor="middle">Coulomb barrier</text><text x="${X((rt+1)/2)}" y="${Y(Q)-40}" text-anchor="middle">escaping α</text>`}${laser?`<text x="${W-Rm-4}" y="${T+14}" text-anchor="end" fill="${acc}">laser on</text>`:''}`};
  lb.addEventListener('click',()=>{laser=!laser;lb.setAttribute('aria-pressed',laser);lb.textContent='Laser field: '+(laser?'on':'off');if(reduce)draw1(0)});
- const ro1=new ResizeObserver(()=>draw1(performance.now()/1000));ro1.observe(f1);
+ const ro1=new ResizeObserver(()=>draw1(performance.now()/1000));ro1.observe(f1);redraw.push(()=>draw1(performance.now()/1000));
  if(!reduce){const lp=n=>{draw1(n/1000);requestAnimationFrame(lp)};requestAnimationFrame(lp)}
 }
 }

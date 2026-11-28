@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /admin.html
+Sitemap: https://saeedmuhd.github.io/sitemap.xml

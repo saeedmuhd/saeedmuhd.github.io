@@ -133,3 +133,42 @@ main>*:nth-child(3){animation-delay:.12s}
 }
 @media(max-width:600px){.hero .fig{min-height:250px}.list li{grid-template-columns:minmax(0,1fr);gap:2px}.facts div{grid-template-columns:minmax(0,1fr);gap:2px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}main>*,.list li{animation:none}.btn,.tile,.card,.links a{transition:none}}
+
+/* ---- v3 additions: theme button, bento home, news, badges ---- */
+.tbtn{background:none;border:1px solid #39407e;color:#fff;border-radius:10px;width:44px;height:44px;font-size:18px;cursor:pointer;order:3}
+nav .links{order:2}
+.burger{order:4}
+.hero .photo{width:112px;height:112px;border-radius:50%;overflow:hidden;border:3px solid #7fe6f7;margin-bottom:20px}
+.hero .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.box{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s,box-shadow .2s}
+a.box:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 10px 30px -18px var(--acc)}
+.box.next{grid-column:span 2;grid-row:span 2;background:linear-gradient(150deg,#141a5c,#0a0f33 70%);color:#fff;border-color:#262f80}
+.box.next h3{font-size:clamp(21px,2.2vw,26px);line-height:1.2;margin:4px 0}
+.box.next p{color:#cfd3f6;margin:0}
+.box.next .go{color:#7fe6f7;margin-top:auto;font-weight:600;padding-top:12px}
+.lbl{font-size:13px;font-weight:600;color:var(--mut)}
+.box.next .lbl{color:#9aa1d8}
+.count{font:700 clamp(38px,5vw,56px)/1 "Space Grotesk",sans-serif;color:#7fe6f7;margin:6px 0}
+.box .big{font:700 44px/1 "Space Grotesk",sans-serif;color:var(--acc)}
+.box p{margin:0;color:var(--mut);font-size:15px}
+.box.news{grid-column:span 2}
+.news ul{list-style:none;padding:0;margin:6px 0 0}
+.news li{display:grid;grid-template-columns:5.2em minmax(0,1fr);gap:12px;padding:9px 0;border-top:1px solid var(--rule);font-size:15px}
+.news time{font-weight:600;color:var(--acc);white-space:nowrap}
+.news a{color:var(--ink);text-decoration:none}
+.news a:hover{color:var(--acc)}
+.kind.tk{background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc)}
+.kind.up{background:#0e8fa8;color:#fff}
+.kind.ms{background:transparent;border:1px solid var(--rule)}
+.list b a{color:var(--ink);text-decoration:none}
+.list b a:hover{color:var(--acc);text-decoration:underline}
+.mini{font:600 13px Inter,sans-serif;margin-top:8px;min-height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--rule);background:transparent;color:var(--mut);cursor:pointer}
+.mini:hover{color:var(--acc);border-color:var(--acc)}
+.copy{font:600 15px Inter,sans-serif;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--acc);background:transparent;color:var(--acc);cursor:pointer;margin-top:18px}
+@media(max-width:980px){.bento{grid-template-columns:repeat(2,minmax(0,1fr))}.box.next,.box.news{grid-column:span 2}.box.next{grid-row:auto}}
+@media(max-width:560px){.bento{grid-template-columns:minmax(0,1fr)}.box.next,.box.news{grid-column:auto}}
+@media(max-width:860px){.tbtn{order:2;margin-left:auto}nav .brand{margin-right:0}nav .links{order:5}}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#0a0f33;padding:8px 14px;border-radius:8px;z-index:20}
+.skip:focus{left:8px}
+.hero .aff a{color:#7fe6f7}
